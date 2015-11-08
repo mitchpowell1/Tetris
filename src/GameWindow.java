@@ -1,10 +1,15 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory.*;
 
 
 public class GameWindow extends JFrame{
@@ -13,16 +18,18 @@ public class GameWindow extends JFrame{
 	private JLabel background;
 	public GameWindow(){
 		
-		backgroundIMG = new ImageIcon(Toolkit.getDefaultToolkit().createImage("Tetris_Background.jpg"));
+		setLayout(new BorderLayout());
+		backgroundIMG = new ImageIcon(Toolkit.getDefaultToolkit().createImage("Tetris_Background.jpg").getScaledInstance(1200, 1200, 2));
+		//backgroundIMG.getImage().getScaledInstance(20, height, hints)
 		background = new JLabel();
 		background.setIcon(backgroundIMG);
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.setSize(900, 700);
+		this.setSize(1200, 700);
 		this.setResizable(false);
-		//setBackground(Color.LIGHT_GRAY);
 		PlayScreen screen = new PlayScreen(this);
+
 		add(screen);
 		add(background);
 		
