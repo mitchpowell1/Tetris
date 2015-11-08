@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.BorderFactory.*;
 
 
 public class GameWindow extends JFrame{
@@ -20,7 +19,6 @@ public class GameWindow extends JFrame{
 		
 		setLayout(new BorderLayout());
 		backgroundIMG = new ImageIcon(Toolkit.getDefaultToolkit().createImage("Tetris_Background.jpg").getScaledInstance(1200, 1200, 2));
-		//backgroundIMG.getImage().getScaledInstance(20, height, hints)
 		background = new JLabel();
 		background.setIcon(backgroundIMG);
 		setTitle("Tetris 2: Son of Tetris");
@@ -28,9 +26,13 @@ public class GameWindow extends JFrame{
 		
 		this.setSize(1200, 700);
 		this.setResizable(false);
+		
 		PlayScreen screen = new PlayScreen(this);
-
+		
+		StatsWindow stats = new StatsWindow();
+		
 		add(screen);
+		add(stats);
 		add(background);
 		
 		this.setVisible(true);
