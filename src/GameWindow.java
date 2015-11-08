@@ -31,8 +31,17 @@ public class GameWindow extends JFrame{
 		
 		StatsWindow stats = new StatsWindow();
 		
+		NextBlockPanel next = new NextBlockPanel();
+		
+		HoldBlockPanel hold = new HoldBlockPanel();
+		
+		
+		next.displayBlock();
+		hold.displayBlock();
 		add(screen);
 		add(stats);
+		add(next);
+		add(hold);
 		add(background);
 		
 		this.setVisible(true);
