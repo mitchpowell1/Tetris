@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,6 +17,13 @@ public class GameWindow extends JFrame{
 	
 	private ImageIcon backgroundIMG;
 	private JLabel background;
+	private PlayScreen screen;
+	private StatsWindow stats;
+	private NextBlockPanel next;
+	private HoldBlockPanel hold;
+	private StartMenu start;
+	private PauseMenu pause;
+	
 	public GameWindow(){
 		
 		setLayout(new BorderLayout());
@@ -27,22 +36,30 @@ public class GameWindow extends JFrame{
 		this.setSize(1200, 700);
 		this.setResizable(false);
 		
-		PlayScreen screen = new PlayScreen(this);
+		start = new StartMenu(this);
 		
-		StatsWindow stats = new StatsWindow();
+		screen = new PlayScreen(this);
 		
-		NextBlockPanel next = new NextBlockPanel();
+		stats = new StatsWindow();
 		
-		HoldBlockPanel hold = new HoldBlockPanel();
+		next = new NextBlockPanel();
 		
+		hold = new HoldBlockPanel();
 		
-		next.displayBlock();
-		hold.displayBlock();
+		pause = new PauseMenu(this);
+		add(pause);
 		add(screen);
 		add(stats);
 		add(next);
-		add(hold);
+		add(hold);	
+		add(start);
 		add(background);
+		
+		screen.setVisible(false);
+		stats.setVisible(false);
+		next.setVisible(false);
+		hold.setVisible(false);
+		pause.setVisible(false);
 		
 		this.setVisible(true);
 	}
@@ -50,6 +67,28 @@ public class GameWindow extends JFrame{
 	public static void main(String[] args) {
 		new GameWindow();
 
+	}
+	
+	public void startGame(){
+		start.setVisible(false);
+		pause.setVisible(false);
+		screen.setVisible(true);
+		screen.startKeyListening();
+		screen.requestFocus();
+		stats.setVisible(true);
+		next.setVisible(true);
+		hold.setVisible(true);
+		revalidate();
+	}
+	
+	public void pauseGame(){
+		screen.setVisible(false);
+		screen.stopKeyListening();
+		stats.setVisible(false);
+		next.setVisible(false);
+		hold.setVisible(false);
+		pause.setVisible(true);
+		System.out.println("The timer is stopped and the game is paused");
 	}
 
 }
