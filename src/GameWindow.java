@@ -52,12 +52,13 @@ public class GameWindow extends JFrame {
 
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(1200, 700);
+		this.setResizable(false);
 		setLayout(new BorderLayout());
 		initializeAudio();
 		createBackground();
 		initializeInstanceVars();
-		this.setSize(1200, 700);
-		this.setResizable(false);
+
 		add(pause);
 		add(screen);
 		add(stats);
