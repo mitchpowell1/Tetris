@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 /**
- * The Pause Menu class is an extension of the JPanel class
- * and displays when the Tetris game is paused.
+ * The Pause Menu class is an extension of the JPanel class and displays when
+ * the Tetris game is paused.
+ * 
  * @author Mitch Powell
  *
  */
@@ -18,45 +19,46 @@ public class PauseMenu extends JPanel {
 	private JButton resume;
 	private JButton reset;
 	private JButton options;
-	
+
 	/**
 	 * Constructor for the Pause Menu class
-	 * @param w the parent GameWindow that the pause menu is contained
-	 * within.
+	 * 
+	 * @param w
+	 *            the parent GameWindow that the pause menu is contained within.
 	 */
-	public PauseMenu(GameWindow w){
+	public PauseMenu(GameWindow w) {
 		this.window = w;
 		resume = new JButton("Resume Game");
-		resume.addActionListener(new ActionListener(){
+		resume.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				window.startGame();			
+				window.startGame();
 			}
-			
+
 		});
 		reset = new JButton("Reset Game");
-		reset.addActionListener(new ActionListener(){
+		reset.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Reset Game");
-				
+
 			}
-			
+
 		});
 		options = new JButton("Options");
-		options.addActionListener(new ActionListener(){
+		options.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Display options menu");
 			}
-			
+
 		});
-		
-		setSize(1100,1100);
-		setLocation(50,0);
+
+		setSize(1100, 1100);
+		setLocation(50, 0);
 		setBackground(Color.BLACK);
 		TitledBorder title = new TitledBorder("PAUSED");
 		title.setTitleColor(Color.LIGHT_GRAY);
