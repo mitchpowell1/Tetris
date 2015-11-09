@@ -4,7 +4,7 @@ import javax.swing.JPanel;
  * Superclass of the HoldBlockPanel and the NextBlockPanel,
  * extension of the JPanel class. All BlockDisplay panel instances
  * must be able to display a tetromino
- * @author BigBear
+ * @author Mitch Powell
  *
  */
 public class BlockDisplayPanel extends JPanel {
