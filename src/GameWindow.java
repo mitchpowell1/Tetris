@@ -50,14 +50,64 @@ public class GameWindow extends JFrame {
 	 */
 	public GameWindow() {
 
-		JFXPanel mediaPanel = new JFXPanel();
-		add(mediaPanel);
+		setTitle("Tetris 2: Son of Tetris");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		initializeAudio();
+		createBackground();
+		initializeInstanceVars();
+		this.setSize(1200, 700);
+		this.setResizable(false);
+		add(pause);
+		add(screen);
+		add(stats);
+		add(next);
+		add(hold);
+		add(start);
+		add(background);
+
+		this.setVisible(true);
+	}
+
+	/**
+	 * Paints the background image onto the frame
+	 */
+	public void createBackground() {
 		backgroundIMG = new ImageIcon(Toolkit.getDefaultToolkit()
 				.createImage("Tetris_Background.jpg")
 				.getScaledInstance(1200, 1200, 2));
 		background = new JLabel();
 		background.setIcon(backgroundIMG);
+	}
+
+	/**
+	 * Creates all of the game component instance variables
+	 */
+	public void initializeInstanceVars() {
+
+		time = 0;
+		timer = new Timer(1000, new GameTimeListener());
+		gameFont = new Font("Arial", Font.PLAIN, 25);
+		start = new StartMenu(this);
+		start.requestFocusInWindow();
+		screen = new PlayScreen(this);
+		stats = new StatsWindow(this);
+		next = new NextBlockPanel(this);
+		hold = new HoldBlockPanel(this);
+		pause = new PauseMenu(this);
+		screen.setVisible(false);
+		stats.setVisible(false);
+		next.setVisible(false);
+		hold.setVisible(false);
+		pause.setVisible(false);
+	}
+
+	/**
+	 * Creates the Audio components of the game
+	 */
+	public void initializeAudio() {
+		JFXPanel mediaPanel = new JFXPanel();
+		add(mediaPanel);
 		themeSong = new Media(new File("Tetris_Theme.mp3").toURI().toString());
 		player = new MediaPlayer(themeSong);
 		player.setAutoPlay(true);
@@ -67,42 +117,6 @@ public class GameWindow extends JFrame {
 			}
 		});
 		player.play();
-		setTitle("Tetris 2: Son of Tetris");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		this.setSize(1200, 700);
-		this.setResizable(false);
-
-		time = 0;
-		timer = new Timer(1000, new GameTimeListener());
-		gameFont = new Font("Arial", Font.PLAIN, 25);
-		start = new StartMenu(this);
-		start.requestFocusInWindow();
-
-		screen = new PlayScreen(this);
-
-		stats = new StatsWindow(this);
-
-		next = new NextBlockPanel(this);
-
-		hold = new HoldBlockPanel(this);
-
-		pause = new PauseMenu(this);
-		add(pause);
-		add(screen);
-		add(stats);
-		add(next);
-		add(hold);
-		add(start);
-		add(background);
-
-		screen.setVisible(false);
-		stats.setVisible(false);
-		next.setVisible(false);
-		hold.setVisible(false);
-		pause.setVisible(false);
-
-		this.setVisible(true);
 	}
 
 	/**

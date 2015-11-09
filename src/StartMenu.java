@@ -49,7 +49,6 @@ public class StartMenu extends JPanel {
 		});
 		addKeyListener(new GameKeyListener());
 		setBackground(Color.BLACK);
-		// playButton.setLocation(1000,0);
 		add(instructionPanel);
 		add(playButton);
 	}
