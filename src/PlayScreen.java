@@ -87,12 +87,27 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());
+					window.getPauseMenu().getMuteBox().setSelected(window.getPlayer().isMute());
 					break;
 				case KeyEvent.VK_MINUS:
-					window.getPlayer().setVolume(window.getPlayer().getVolume()-.1);
+					//These statements are here because the MediaPlayer class only has meaningful actions for volume
+					//on a range from 0 to 1, but the setter method for the volume will still allow you to set a higher number
+					if(window.getPlayer().getVolume() <= .1){
+						window.getPlayer().setVolume(0);
+					} else{
+						window.getPlayer().setVolume(window.getPlayer().getVolume()-.1);
+					}
+					window.getPauseMenu().getVolumeSlider().setValue((int) Math.round(window.getPlayer().getVolume()*10));
+					System.out.println(window.getPlayer().getVolume());
 					break;
 				case KeyEvent.VK_EQUALS:
-					window.getPlayer().setVolume(window.getPlayer().getVolume()+.1);
+					if(window.getPlayer().getVolume() >= .9){
+						window.getPlayer().setVolume(1);
+					} else {
+						window.getPlayer().setVolume(window.getPlayer().getVolume()+.1);
+					}
+					window.getPauseMenu().getVolumeSlider().setValue((int) Math.round(window.getPlayer().getVolume()*10));
+					System.out.println(window.getPlayer().getVolume());
 					break;
 			}
 			

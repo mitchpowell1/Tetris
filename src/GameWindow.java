@@ -44,6 +44,7 @@ public class GameWindow extends JFrame {
 	private int time;
 	private Media themeSong;
 	private MediaPlayer player;
+	private GameKeyListener menuListener;
 
 	/**
 	 * Constructor for a game window class.
@@ -52,6 +53,7 @@ public class GameWindow extends JFrame {
 
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuListener = new GameKeyListener();
 		this.setSize(1200, 700);
 		this.setResizable(false);
 		setLayout(new BorderLayout());
@@ -59,6 +61,7 @@ public class GameWindow extends JFrame {
 		createBackground();
 		initializeInstanceVars();
 
+		addKeyListener(menuListener);
 		add(pause);
 		add(screen);
 		add(stats);
@@ -88,9 +91,10 @@ public class GameWindow extends JFrame {
 
 		time = 0;
 		timer = new Timer(1000, new GameTimeListener());
+		timer.setInitialDelay(3000);
 		gameFont = new Font("Arial", Font.PLAIN, 25);
 		start = new StartMenu(this);
-		start.requestFocusInWindow();
+		start.addKeyListener(menuListener);
 		screen = new PlayScreen(this);
 		stats = new StatsWindow(this);
 		next = new NextBlockPanel(this);
@@ -111,7 +115,9 @@ public class GameWindow extends JFrame {
 		add(mediaPanel);
 		themeSong = new Media(new File("Tetris_Theme.mp3").toURI().toString());
 		player = new MediaPlayer(themeSong);
+		player.setVolume(0.3);
 		player.setAutoPlay(true);
+		//These lines put the theme song on a loop
 		player.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				player.seek(Duration.ZERO);
@@ -124,6 +130,8 @@ public class GameWindow extends JFrame {
 	 * Starts the timer and displays the gameplay components
 	 */
 	public void startGame() {
+		start.removeKeyListener(menuListener);
+		pause.removeKeyListener(menuListener);
 		timer.start();
 		start.setVisible(false);
 		pause.setVisible(false);
@@ -147,6 +155,9 @@ public class GameWindow extends JFrame {
 		next.setVisible(false);
 		hold.setVisible(false);
 		pause.setVisible(true);
+		pause.addKeyListener(menuListener);
+		pause.requestFocus(true);
+		System.out.println(pause.hasFocus());
 		System.out.println("The timer is stopped and the game is paused");
 	}
 
@@ -188,6 +199,10 @@ public class GameWindow extends JFrame {
 		}
 	}
 
+	public PauseMenu getPauseMenu(){
+		return pause;
+	}
+	
 	/**
 	 * creates a new GameWindow
 	 * 
@@ -196,6 +211,58 @@ public class GameWindow extends JFrame {
 	 */
 	public static void main(String[] args) {
 		new GameWindow();
+
+	}
+	
+	/**
+	 * This private inner class listens for keyboard input to adjust the volume
+	 * of the theme song.
+	 * 
+	 * @author Mitch Powell
+	 *
+	 */
+	private class GameKeyListener implements KeyListener {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("Key Pressed in menu screen");
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_M:
+				player.setMute(!player.isMute());
+				pause.getMuteBox().setSelected(player.isMute());
+				break;
+			case KeyEvent.VK_MINUS:
+				if(player.getVolume() <= .1){
+					player.setVolume(0);
+				} else {
+					player.setVolume(
+							player.getVolume() - .1);	
+				}
+				pause.getVolumeSlider().setValue((int) Math.round(player.getVolume() * 10));
+				break;
+			case KeyEvent.VK_EQUALS:
+				if(player.getVolume() >= .9){
+					player.setVolume(1);
+				} else {
+					player.setVolume(
+						player.getVolume() + .1);
+				}
+				pause.getVolumeSlider().setValue((int) Math.round(player.getVolume() * 10));
+				break;
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 }

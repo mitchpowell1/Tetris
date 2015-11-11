@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import java.awt.BorderLayout;
 
 /**
  * The StartMenu class displays instructions for the user before the game
@@ -25,8 +26,8 @@ public class StartMenu extends JPanel {
 		setFocusable(true);
 		this.window = w;
 		// setLayout(new BoxLayout(1));
-		setLocation(50, 0);
-		setSize(1100, 1100);
+		setLocation(50, 25);
+		setSize(1100, 625);
 		instructionPanel = new JPanel();
 		TitledBorder instructionBorder = new TitledBorder("HOW TO PLAY");
 		instructionBorder.setTitleColor(Color.LIGHT_GRAY);
@@ -47,49 +48,11 @@ public class StartMenu extends JPanel {
 			}
 
 		});
-		addKeyListener(new GameKeyListener());
+
 		setBackground(Color.BLACK);
+		setLayout(new BorderLayout(0, 0));
 		add(instructionPanel);
-		add(playButton);
+		add(playButton, BorderLayout.SOUTH);
 	}
 
-	/**
-	 * This private inner class listens for keyboard input to adjust the volume
-	 * of the theme song.
-	 * 
-	 * @author Mitch Powell
-	 *
-	 */
-	private class GameKeyListener implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_M:
-				window.getPlayer().setMute(!window.getPlayer().isMute());
-				break;
-			case KeyEvent.VK_MINUS:
-				window.getPlayer().setVolume(
-						window.getPlayer().getVolume() - .1);
-				break;
-			case KeyEvent.VK_EQUALS:
-				window.getPlayer().setVolume(
-						window.getPlayer().getVolume() + .1);
-				break;
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
 }

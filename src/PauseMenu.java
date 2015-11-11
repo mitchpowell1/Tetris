@@ -1,11 +1,24 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 /**
  * The Pause Menu class is an extension of the JPanel class and displays when
@@ -19,6 +32,14 @@ public class PauseMenu extends JPanel {
 	private JButton resume;
 	private JButton reset;
 	private JButton options;
+	private JPanel volumePanel;
+	private JCheckBox muteToggle;
+	private JLabel muteLabel;
+	private JLabel volumeLabel;
+	private JSlider volumeSlider;
+	private JPanel buttonPanel;
+	private JPanel mutePanel;
+	private JPanel slidePanel;
 
 	/**
 	 * Constructor for the Pause Menu class
@@ -28,25 +49,70 @@ public class PauseMenu extends JPanel {
 	 */
 	public PauseMenu(GameWindow w) {
 		this.window = w;
-		resume = new JButton("Resume Game");
-		resume.addActionListener(new ActionListener() {
+		volumePanel = new JPanel();
+		volumePanel.setSize(600,600);
+		volumePanel.setLayout(new BorderLayout(0, 0));
+		
+		mutePanel = new JPanel();
+		mutePanel.setBackground(Color.BLACK);
+		volumePanel.add(mutePanel);
+		mutePanel.setLayout(new BorderLayout(0, 0));
+		muteLabel = new JLabel("Mute that sweet, sweet theme music?");
+		mutePanel.add(muteLabel);
+		muteLabel.setForeground(Color.LIGHT_GRAY);
+		muteToggle = new JCheckBox();
+		mutePanel.add(muteToggle, BorderLayout.EAST);
+		muteToggle.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				window.startGame();
+				window.getPlayer().setMute(muteToggle.isSelected());
+				
 			}
-
+			
 		});
-		reset = new JButton("Reset Game");
-		reset.addActionListener(new ActionListener() {
+		
+		slidePanel = new JPanel();
+		slidePanel.setBackground(Color.BLACK);
+		volumePanel.add(slidePanel, BorderLayout.SOUTH);
+		slidePanel.setLayout(new BorderLayout(0, 0));
+		volumeLabel = new JLabel("Or perhaps turn it down a little?");
+		slidePanel.add(volumeLabel);
+		volumeLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		volumeLabel.setForeground(Color.LIGHT_GRAY);
+		volumeSlider = new JSlider(0,10);
+		volumeSlider.setPaintLabels(true);
+		//volumeSlider.setPaintTicks(true);
+		volumeSlider.setBackground(Color.BLACK);
+		volumeSlider.setForeground(Color.WHITE);
+
+		Hashtable labelTable = new Hashtable();
+		labelTable.put(new Integer(0), new JLabel("Min"));
+		labelTable.put(new Integer(10), new JLabel("Max"));
+		labelTable.put(new Integer(5), new JLabel("Just Right"));
+		volumeSlider.setLabelTable(labelTable);
+		slidePanel.add(volumeSlider, BorderLayout.EAST);
+		volumeSlider.setBackground(Color.GRAY);
+		volumeSlider.setOpaque(true);
+		volumeSlider.setValue((int) Math.round(window.getPlayer().getVolume()*10));
+		volumeSlider.addChangeListener(new ChangeListener(){
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Reset Game");
-
+			public void stateChanged(ChangeEvent e) {
+				window.getPlayer().setVolume((double)volumeSlider.getValue() / 10);
+				System.out.println(window.getPlayer().getVolume());
+				
 			}
-
+			
 		});
+		volumePanel.setBackground(Color.BLACK);
+		//TitledBorder volumeOptionTitle = BorderFactory.createTitledBorder("VOLUME OPTIONS: ");
+		//volumeOptionTitle.setTitleColor(Color.WHITE);
+		//volumeOptionTitle.setTitleFont(new Font("Arial", Font.PLAIN, 15));
+		TitledBorder volumeOptionTitle = new TitledBorder(new LineBorder(new Color(192, 192, 192)), "VOLUME OPTIONS ", TitledBorder.ABOVE_TOP,
+				TitledBorder.TOP, null, new Color(192, 192, 192));
+		volumeOptionTitle.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		volumePanel.setBorder(volumeOptionTitle);
 		options = new JButton("Options");
 		options.addActionListener(new ActionListener() {
 
@@ -57,17 +123,50 @@ public class PauseMenu extends JPanel {
 
 		});
 
-		setSize(1100, 1100);
-		setLocation(50, 0);
+		setSize(600, 300);
+		setLocation(300, 100);
 		setBackground(Color.BLACK);
 		TitledBorder title = new TitledBorder("PAUSED");
 		title.setTitleColor(Color.LIGHT_GRAY);
 		title.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		title.setTitleFont(window.getFont());
 		title.setTitleJustification(2);
-		add(resume);
-		add(reset);
-		add(options);
+		setLayout(new GridLayout(0, 1, 0, 0));
+		
+		buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.BLACK);
+		add(buttonPanel);
+		
+		resume = new JButton("Resume Game");
+		buttonPanel.add(resume);
+		reset = new JButton("Reset Game");
+		buttonPanel.add(reset);
+		reset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Reset Game");
+
+			}
+
+		});
+		resume.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				window.startGame();
+			}
+
+		});
+		add(volumePanel);
 		setBorder(title);
+	}
+	
+	public JSlider getVolumeSlider(){
+		return volumeSlider;
+	}
+	
+	public JCheckBox getMuteBox(){
+		return muteToggle;
 	}
 }
