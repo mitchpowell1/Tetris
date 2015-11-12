@@ -45,6 +45,9 @@ public class GameWindow extends JFrame {
 	private Media themeSong;
 	private MediaPlayer player;
 	private GameKeyListener menuListener;
+	private PauseButton pauseButton;
+	
+	public double DEFAULTVOLUME = 0.0;
 
 	/**
 	 * Constructor for a game window class.
@@ -68,6 +71,7 @@ public class GameWindow extends JFrame {
 		add(next);
 		add(hold);
 		add(start);
+		add(pauseButton);
 		add(background);
 
 		this.setVisible(true);
@@ -90,6 +94,7 @@ public class GameWindow extends JFrame {
 	public void initializeInstanceVars() {
 
 		time = 0;
+		pauseButton = new PauseButton(this);
 		timer = new Timer(1000, new GameTimeListener());
 		timer.setInitialDelay(3000);
 		gameFont = new Font("Arial", Font.PLAIN, 25);
@@ -104,6 +109,7 @@ public class GameWindow extends JFrame {
 		stats.setVisible(false);
 		next.setVisible(false);
 		hold.setVisible(false);
+		pauseButton.setVisible(false);
 		pause.setVisible(false);
 	}
 
@@ -115,7 +121,7 @@ public class GameWindow extends JFrame {
 		add(mediaPanel);
 		themeSong = new Media(new File("Tetris_Theme.mp3").toURI().toString());
 		player = new MediaPlayer(themeSong);
-		player.setVolume(0.3);
+		player.setVolume(DEFAULTVOLUME);
 		player.setAutoPlay(true);
 		//These lines put the theme song on a loop
 		player.setOnEndOfMedia(new Runnable() {
@@ -140,6 +146,7 @@ public class GameWindow extends JFrame {
 		screen.requestFocusInWindow();
 		stats.setVisible(true);
 		next.setVisible(true);
+		pauseButton.setVisible(true);
 		hold.setVisible(true);
 		revalidate();
 	}
@@ -154,9 +161,10 @@ public class GameWindow extends JFrame {
 		stats.setVisible(false);
 		next.setVisible(false);
 		hold.setVisible(false);
+		pauseButton.setVisible(false);
 		pause.setVisible(true);
-		pause.addKeyListener(menuListener);
-		pause.requestFocus(true);
+		//pause.addKeyListener(menuListener);
+		//pause.requestFocus(true);
 		System.out.println(pause.hasFocus());
 		System.out.println("The timer is stopped and the game is paused");
 	}
