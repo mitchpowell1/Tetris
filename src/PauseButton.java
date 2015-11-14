@@ -12,7 +12,7 @@ public class PauseButton extends JButton {
 		setText("Pause");
 		setLocation(1000,300);
 		setSize(100,50);
-		setFont(w.getFont());
+		setFont(w.getFont()); 
 		setBackground(Color.LIGHT_GRAY);
 		System.out.println("Pause button created");
 		addActionListener(new ActionListener(){

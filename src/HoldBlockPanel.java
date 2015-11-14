@@ -23,7 +23,7 @@ public class HoldBlockPanel extends BlockDisplayPanel {
 	 */
 	public HoldBlockPanel(GameWindow w) {
 		this.window = w;
-		setLocation(50, 50);
+		setLocation(100, 50);
 		setSize(200, 200);
 		TitledBorder title = BorderFactory.createTitledBorder("HOLD");
 		title.setTitleColor(Color.LIGHT_GRAY);

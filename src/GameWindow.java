@@ -39,6 +39,7 @@ public class GameWindow extends JFrame {
 	private StatsWindow stats;
 	private NextBlockPanel next;
 	private HoldBlockPanel hold;
+	private JLabel logo;
 	private StartMenu start;
 	private PauseMenu pause;
 	private int time;
@@ -46,8 +47,8 @@ public class GameWindow extends JFrame {
 	private MediaPlayer player;
 	private GameKeyListener menuListener;
 	private PauseButton pauseButton;
-	
-	public double DEFAULTVOLUME = 0.0;
+	private int level = 1;
+	public double DEFAULTVOLUME = 0.3;
 
 	/**
 	 * Constructor for a game window class.
@@ -57,7 +58,7 @@ public class GameWindow extends JFrame {
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menuListener = new GameKeyListener();
-		this.setSize(1200, 700);
+		this.setSize(1200, 750);
 		this.setResizable(false);
 		setLayout(new BorderLayout());
 		initializeAudio();
@@ -71,6 +72,7 @@ public class GameWindow extends JFrame {
 		add(next);
 		add(hold);
 		add(start);
+		add(logo);
 		add(pauseButton);
 		add(background);
 
@@ -95,8 +97,15 @@ public class GameWindow extends JFrame {
 
 		time = 0;
 		pauseButton = new PauseButton(this);
-		timer = new Timer(1000, new GameTimeListener());
+		timer = new Timer(20, new GameTimeListener());
 		timer.setInitialDelay(3000);
+		logo = new JLabel("TETRIS");
+		logo.setFont(new Font("Arial Black", Font.PLAIN, 50));
+		logo.setForeground(Color.BLACK);
+		logo.setOpaque(false);
+		logo.setSize(250,100);
+		logo.setBackground(Color.BLACK);
+		logo.setLocation(850,465);
 		gameFont = new Font("Arial", Font.PLAIN, 25);
 		start = new StartMenu(this);
 		start.addKeyListener(menuListener);
@@ -141,6 +150,7 @@ public class GameWindow extends JFrame {
 		timer.start();
 		start.setVisible(false);
 		pause.setVisible(false);
+		logo.setVisible(true);
 		screen.setVisible(true);
 		screen.startKeyListening();
 		screen.requestFocusInWindow();
@@ -202,8 +212,12 @@ public class GameWindow extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			time += 1;
-			stats.getTimeLabel().setText("Time: " + time + "\n");
+			time += 20;
+			screen.incrementDrop(level);
+			screen.repaint();
+			if(time % 1000 == 0){
+				stats.getTimeLabel().setText("Time: " + time/1000 + "\n");
+			}
 		}
 	}
 

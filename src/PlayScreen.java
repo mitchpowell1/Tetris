@@ -1,6 +1,10 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -15,6 +19,10 @@ import javax.swing.JPanel;
 public class PlayScreen extends JPanel{
 	private GameWindow window;
 	private GameKeyListener gameKeys;
+	private ArrayList<Tetromino> tetrominos;
+	private int width = 360;
+	private int height = 2*width;
+	private int dropRate;
 	
 	/**
 	 * Constructor for the PlayScreen class
@@ -23,10 +31,13 @@ public class PlayScreen extends JPanel{
 	public PlayScreen(GameWindow w){
 		this.window = w;
 		this.setFocusable(true);
-		setSize((int) (window.getWidth()/2.5),window.getHeight()-40);
+		this.dropRate = 0;
+		setSize(width,height);
 		setBackground(Color.BLACK);
-		setLocation(w.getWidth()/3,10);
+		setLocation(475,5);
 		setBorder(BorderFactory.createEtchedBorder(1, Color.LIGHT_GRAY, Color.DARK_GRAY));
+		//tetrominos.add(new Tetromino(this, Color.RED));
+		//add(tetrominos.get(0));
 		//setSize(400,600);
 		//setVisible(true);
 		
@@ -40,13 +51,67 @@ public class PlayScreen extends JPanel{
 		addKeyListener(gameKeys);
 	}
 	
+	public void incrementDrop (int level){
+		this.dropRate += level;
+	}
+	
 	/**
 	 * Removes the KeyListener
 	 */
 	public void stopKeyListening(){
 		removeKeyListener(gameKeys);
+		
 	}
 	
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		Color strokeCol = Color.DARK_GRAY;
+		if((getWidth()/10+dropRate-100+(getWidth()/10) < height)){
+			//g2.setStroke(new BasicStroke(1));
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/10, -100+dropRate, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/10, -100+dropRate, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/5, -100+dropRate, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/5, -100+dropRate, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/5, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/5, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(3*getWidth()/10, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(3*getWidth()/10, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
+		} else {
+			//g2.setStroke(new BasicStroke(1));
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/10, height-getWidth()/5, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/10, height-getWidth()/5, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/5, height-getWidth()/5, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/5, height-getWidth()/5, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(getWidth()/5, height-getWidth()/10, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(getWidth()/5, height-getWidth()/10, getWidth()/10, getWidth()/10);
+			
+			g2.setColor(Color.RED);
+			g2.fillRect(3*getWidth()/10, height-getWidth()/10, getWidth()/10, getWidth()/10);
+			g2.setColor(strokeCol);
+			g2.drawRect(3*getWidth()/10, height-getWidth()/10, getWidth()/10, getWidth()/10);
+		}
+
+	}
 	/**
 	 * Private inner class to listen for keyboard input and
 	 * manipulate the game accordingly.
@@ -72,6 +137,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_SPACE:
 					System.out.println("Tetromino Hard Dropped");
+					dropRate = height+(width/10);
 					break;
 				case KeyEvent.VK_LEFT:
 					System.out.println("Tetromino Moved Left");
@@ -84,6 +150,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("Tetromino Soft Dropped");
+					dropRate = 30;
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());
@@ -112,12 +179,14 @@ public class PlayScreen extends JPanel{
 			}
 			
 		}
+		
+
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
+
 		
 	}
 	
