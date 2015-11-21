@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -20,10 +21,13 @@ public class PlayScreen extends JPanel{
 	private GameWindow window;
 	private GameKeyListener gameKeys;
 	private ArrayList<Tetromino> tetrominos;
+	private ArrayList<Tetromino> usedTetrominos;
 	private int width = 360;
 	private int height = 2*width;
 	private int dropRate;
-	
+	private Tetromino activePiece;
+	private Tetromino nextPiece;
+	private Tetromino holdPiece;
 	/**
 	 * Constructor for the PlayScreen class
 	 * @param w the parent GameWindow
@@ -31,15 +35,14 @@ public class PlayScreen extends JPanel{
 	public PlayScreen(GameWindow w){
 		this.window = w;
 		this.setFocusable(true);
-		this.dropRate = 0;
+		this.dropRate = 1;
+		tetrominos = new ArrayList<Tetromino>();
+		usedTetrominos = new ArrayList<Tetromino>();
 		setSize(width,height);
 		setBackground(Color.BLACK);
 		setLocation(475,5);
 		setBorder(BorderFactory.createEtchedBorder(1, Color.LIGHT_GRAY, Color.DARK_GRAY));
-		//tetrominos.add(new Tetromino(this, Color.RED));
-		//add(tetrominos.get(0));
-		//setSize(400,600);
-		//setVisible(true);
+		addNewPiece();
 		
 	}
 	
@@ -51,8 +54,17 @@ public class PlayScreen extends JPanel{
 		addKeyListener(gameKeys);
 	}
 	
-	public void incrementDrop (int level){
-		this.dropRate += level;
+	public int getDropRate(){
+		return this.dropRate;
+	}
+	
+	public ArrayList<Tetromino> getUsedTetrominos(){
+		return this.usedTetrominos;
+	}
+	
+	public void addNewPiece(){
+		activePiece = new I_Piece(this, new Point(getWidth()/10, 50));
+		tetrominos.add(activePiece);
 	}
 	
 	/**
@@ -63,53 +75,27 @@ public class PlayScreen extends JPanel{
 		
 	}
 	
+	public void lockPiece(){
+		usedTetrominos.add(activePiece);
+		addNewPiece();
+	}
+	
+	public Tetromino getActivePiece(){
+		return this.activePiece;
+	}
+	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		Color strokeCol = Color.DARK_GRAY;
-		if((getWidth()/10+dropRate-100+(getWidth()/10) < height)){
-			//g2.setStroke(new BasicStroke(1));
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/10, -100+dropRate, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/10, -100+dropRate, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/5, -100+dropRate, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/5, -100+dropRate, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/5, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/5, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(3*getWidth()/10, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(3*getWidth()/10, getWidth()/10+dropRate-100, getWidth()/10, getWidth()/10);
-		} else {
-			//g2.setStroke(new BasicStroke(1));
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/10, height-getWidth()/5, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/10, height-getWidth()/5, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/5, height-getWidth()/5, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/5, height-getWidth()/5, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(getWidth()/5, height-getWidth()/10, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(getWidth()/5, height-getWidth()/10, getWidth()/10, getWidth()/10);
-			
-			g2.setColor(Color.RED);
-			g2.fillRect(3*getWidth()/10, height-getWidth()/10, getWidth()/10, getWidth()/10);
-			g2.setColor(strokeCol);
-			g2.drawRect(3*getWidth()/10, height-getWidth()/10, getWidth()/10, getWidth()/10);
+		for(Tetromino piece: tetrominos){
+			for(Block block : piece.getBlocks()){
+				g2.setColor(piece.getColor());
+				g2.fill(block);
+				g2.setColor(Color.DARK_GRAY);
+				g2.draw(block);
+			}
 		}
+		
 
 	}
 	/**
@@ -137,20 +123,23 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_SPACE:
 					System.out.println("Tetromino Hard Dropped");
-					dropRate = height+(width/10);
+					activePiece.setLocation(activePiece.getX(),height-4*activePiece.getBlockSideLength());
 					break;
 				case KeyEvent.VK_LEFT:
 					System.out.println("Tetromino Moved Left");
+					activePiece.moveLeft();
 					break;
 				case KeyEvent.VK_RIGHT:
 					System.out.println("Tetromino Moved Right");
+					activePiece.moveRight();
 					break;
 				case KeyEvent.VK_UP:
 					System.out.println("Tetromino Rotated");
+					activePiece.rotate();
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("Tetromino Soft Dropped");
-					dropRate = 30;
+					activePiece.setLocation(activePiece.getX(),height - (4*activePiece.getBlockSideLength()));
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());
@@ -179,8 +168,6 @@ public class PlayScreen extends JPanel{
 			}
 			
 		}
-		
-
 
 		@Override
 		public void keyReleased(KeyEvent e) {

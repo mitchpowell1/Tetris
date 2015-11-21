@@ -6,20 +6,28 @@ import java.awt.Rectangle;
 
 
 public class Block extends Rectangle{
-	private Color color;
 	
-	public Block(PlayScreen p, int x, int y, Color col){
-		this.width = p.getWidth()/10;
-		this.height = p.getWidth()/10;
-		this.x = x;
-		this.y = y;
-		this.color = col;
+	private int position;
+	
+	public Block(Tetromino parentPiece, int position){
+		this.width = parentPiece.getBlockSideLength();
+		this.height = parentPiece.getBlockSideLength();
+		if(position < 4){
+			this.y = parentPiece.getY();
+			this.x = parentPiece.getX()+((position%4)*width);
+		} else if(position < 8){
+			this.y = parentPiece.getY()+(width);
+			this.x = parentPiece.getX()+((position%4)*width);
+		} else if(position < 12){
+			this.y = parentPiece.getY()+(2*width);
+			this.x = parentPiece.getX()+((position%4)*width);
+		} else {
+			this.y = parentPiece.getY()+(3*width);
+			this.x = parentPiece.getX()+((position%4)*width);
+		}
 	}
 	
-	public void draw(Graphics2D g2){
-		g2.setStroke(new BasicStroke(2));
-		g2.setColor(Color.BLACK);
-		g2.draw(this);
-		g2.fill(this);
+	public int getPosition(){
+		return this.position;
 	}
 }

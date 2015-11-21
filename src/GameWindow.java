@@ -48,7 +48,7 @@ public class GameWindow extends JFrame {
 	private GameKeyListener menuListener;
 	private PauseButton pauseButton;
 	private int level = 1;
-	public double DEFAULTVOLUME = 0.3;
+	public double DEFAULTVOLUME = 0.0;
 
 	/**
 	 * Constructor for a game window class.
@@ -97,7 +97,7 @@ public class GameWindow extends JFrame {
 
 		time = 0;
 		pauseButton = new PauseButton(this);
-		timer = new Timer(20, new GameTimeListener());
+		timer = new Timer(200, new GameTimeListener());
 		timer.setInitialDelay(3000);
 		logo = new JLabel("TETRIS");
 		logo.setFont(new Font("Arial Black", Font.PLAIN, 50));
@@ -173,8 +173,6 @@ public class GameWindow extends JFrame {
 		hold.setVisible(false);
 		pauseButton.setVisible(false);
 		pause.setVisible(true);
-		//pause.addKeyListener(menuListener);
-		//pause.requestFocus(true);
 		System.out.println(pause.hasFocus());
 		System.out.println("The timer is stopped and the game is paused");
 	}
@@ -212,12 +210,12 @@ public class GameWindow extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			time += 20;
-			screen.incrementDrop(level);
+			time += 200;
 			screen.repaint();
 			if(time % 1000 == 0){
 				stats.getTimeLabel().setText("Time: " + time/1000 + "\n");
 			}
+			screen.getActivePiece().drop();
 		}
 	}
 
