@@ -54,7 +54,7 @@ public class GameWindow extends JFrame {
 	 * Constructor for a game window class.
 	 */
 	public GameWindow() {
-
+		
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menuListener = new GameKeyListener();

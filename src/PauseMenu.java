@@ -49,19 +49,97 @@ public class PauseMenu extends JPanel {
 	 */
 	public PauseMenu(GameWindow w) {
 		this.window = w;
-		volumePanel = new JPanel();
-		volumePanel.setSize(600,600);
-		volumePanel.setLayout(new BorderLayout(0, 0));
+		setSize(600, 300);
+		setLocation(300, 100);
+		setBackground(Color.BLACK);
+		setLayout(new GridLayout(0, 1, 0, 0));
+		setBorder(makeTitle());
 		
+		makeButtonPanel();
+		instantiateVolumeControls();
+		
+		add(buttonPanel);
+		add(volumePanel);
+	}
+	
+	/**
+	 * Creates the Pause menu title
+	 * @return the titled border for the pause menu.
+	 */
+	public TitledBorder makeTitle(){
+		TitledBorder title = new TitledBorder("PAUSED");
+		title.setTitleColor(Color.LIGHT_GRAY);
+		title.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		title.setTitleFont(window.getFont());
+		title.setTitleJustification(2);
+		return title;
+	}
+	
+	/**
+	 * Creates the "Reset Game" and "Resume Game" buttons and the panel that houses them.
+	 */
+	public void makeButtonPanel(){
+		
+		buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.BLACK);
+		
+		resume = new JButton("Resume Game");
+		resume.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				window.startGame();
+			}
+
+		});
+		
+		reset = new JButton("Reset Game");
+		reset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Reset Game");
+
+			}
+
+		});
+
+		
+		buttonPanel.add(resume);
+		buttonPanel.add(reset);
+	}
+	
+	public void instantiateVolumeControls(){
+		
+		
+		makeVolumePanel();
+		makeMutePanel();
+		makeVolumeSlider();
+		
+		mutePanel.add(muteLabel);
+		mutePanel.add(muteToggle, BorderLayout.EAST);
+		volumePanel.add(mutePanel);
+		volumePanel.add(slidePanel, BorderLayout.SOUTH);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	
+	
+	
+	/**
+	 * Creates the Mute Panel that houses the mute button and its label
+	 */
+	public void makeMutePanel(){
 		mutePanel = new JPanel();
 		mutePanel.setBackground(Color.BLACK);
-		volumePanel.add(mutePanel);
 		mutePanel.setLayout(new BorderLayout(0, 0));
 		muteLabel = new JLabel("Mute that sweet, sweet theme music?");
-		mutePanel.add(muteLabel);
 		muteLabel.setForeground(Color.LIGHT_GRAY);
+		
 		muteToggle = new JCheckBox();
-		mutePanel.add(muteToggle, BorderLayout.EAST);
 		muteToggle.addActionListener(new ActionListener(){
 
 			@Override
@@ -72,25 +150,49 @@ public class PauseMenu extends JPanel {
 			
 		});
 		
-		slidePanel = new JPanel();
-		slidePanel.setBackground(Color.BLACK);
-		volumePanel.add(slidePanel, BorderLayout.SOUTH);
-		slidePanel.setLayout(new BorderLayout(0, 0));
+	}
+	
+	/** 
+	 * Creates the Volume Panel that houses all of the volume adjustment components and their labels
+	 */
+	public void makeVolumePanel(){
+		volumePanel = new JPanel();
+		volumePanel.setSize(600,600);
+		volumePanel.setLayout(new BorderLayout(0, 0));
+		volumePanel.setBackground(Color.BLACK);
+		TitledBorder volumeOptionTitle = new TitledBorder(new LineBorder(new Color(192, 192, 192)), "VOLUME OPTIONS ", TitledBorder.ABOVE_TOP,
+				TitledBorder.TOP, null, new Color(192, 192, 192));
+		volumeOptionTitle.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		volumePanel.setBorder(volumeOptionTitle);
+	}
+	
+	
+	/**
+	 * Creates the volumeSlider that adjusts the volume of the background music and the panel that houses it
+	 */
+	public void makeVolumeSlider(){
+		
+
 		volumeLabel = new JLabel("Or perhaps turn it down a little?");
-		slidePanel.add(volumeLabel);
 		volumeLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		volumeLabel.setForeground(Color.LIGHT_GRAY);
+		
+		slidePanel = new JPanel();
+		slidePanel.setBackground(Color.BLACK);
+		slidePanel.setLayout(new BorderLayout(0, 0));
+		slidePanel.add(volumeLabel);
+		
 		volumeSlider = new JSlider(0,10);
 		volumeSlider.setPaintLabels(true);
-		//volumeSlider.setPaintTicks(true);
 		volumeSlider.setBackground(Color.BLACK);
 		volumeSlider.setForeground(Color.WHITE);
-
+		
 		Hashtable labelTable = new Hashtable();
 		labelTable.put(new Integer(0), new JLabel("Min"));
 		labelTable.put(new Integer(10), new JLabel("Max"));
 		labelTable.put(new Integer(5), new JLabel("Just Right"));
 		volumeSlider.setLabelTable(labelTable);
+		
 		slidePanel.add(volumeSlider, BorderLayout.EAST);
 		volumeSlider.setBackground(Color.GRAY);
 		volumeSlider.setOpaque(true);
@@ -105,67 +207,21 @@ public class PauseMenu extends JPanel {
 			}
 			
 		});
-		volumePanel.setBackground(Color.BLACK);
-		//TitledBorder volumeOptionTitle = BorderFactory.createTitledBorder("VOLUME OPTIONS: ");
-		//volumeOptionTitle.setTitleColor(Color.WHITE);
-		//volumeOptionTitle.setTitleFont(new Font("Arial", Font.PLAIN, 15));
-		TitledBorder volumeOptionTitle = new TitledBorder(new LineBorder(new Color(192, 192, 192)), "VOLUME OPTIONS ", TitledBorder.ABOVE_TOP,
-				TitledBorder.TOP, null, new Color(192, 192, 192));
-		volumeOptionTitle.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		volumePanel.setBorder(volumeOptionTitle);
-		options = new JButton("Options");
-		options.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Display options menu");
-			}
-
-		});
-
-		setSize(600, 300);
-		setLocation(300, 100);
-		setBackground(Color.BLACK);
-		TitledBorder title = new TitledBorder("PAUSED");
-		title.setTitleColor(Color.LIGHT_GRAY);
-		title.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		title.setTitleFont(window.getFont());
-		title.setTitleJustification(2);
-		setLayout(new GridLayout(0, 1, 0, 0));
 		
-		buttonPanel = new JPanel();
-		buttonPanel.setBackground(Color.BLACK);
-		add(buttonPanel);
-		
-		resume = new JButton("Resume Game");
-		buttonPanel.add(resume);
-		reset = new JButton("Reset Game");
-		buttonPanel.add(reset);
-		reset.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Reset Game");
-
-			}
-
-		});
-		resume.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				window.startGame();
-			}
-
-		});
-		add(volumePanel);
-		setBorder(title);
 	}
 	
+	/**
+	 * Returns the volume slider
+	 * @return the slider that controls the music volume
+	 */
 	public JSlider getVolumeSlider(){
 		return volumeSlider;
 	}
 	
+	/**
+	 * Returns the mute box
+	 * @return the JCheckbox that mutes the music
+	 */
 	public JCheckBox getMuteBox(){
 		return muteToggle;
 	}
