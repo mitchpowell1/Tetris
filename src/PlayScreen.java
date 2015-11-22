@@ -6,8 +6,10 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -25,6 +27,7 @@ public class PlayScreen extends JPanel{
 	private int width = 360;
 	private int height = 2*width;
 	private int dropRate;
+	private Random pieceGenerator;
 	private Tetromino activePiece;
 	private Tetromino nextPiece;
 	private Tetromino holdPiece;
@@ -35,7 +38,8 @@ public class PlayScreen extends JPanel{
 	public PlayScreen(GameWindow w){
 		this.window = w;
 		this.setFocusable(true);
-		this.dropRate = 1;
+		this.dropRate = 10;
+		pieceGenerator = new Random();
 		tetrominos = new ArrayList<Tetromino>();
 		usedTetrominos = new ArrayList<Tetromino>();
 		setSize(width,height);
@@ -51,6 +55,7 @@ public class PlayScreen extends JPanel{
 	 */
 	public void startKeyListening(){
 		gameKeys = new GameKeyListener();
+		requestFocus();
 		addKeyListener(gameKeys);
 	}
 	
@@ -58,13 +63,53 @@ public class PlayScreen extends JPanel{
 		return this.dropRate;
 	}
 	
+	
 	public ArrayList<Tetromino> getUsedTetrominos(){
 		return this.usedTetrominos;
 	}
 	
+	public Tetromino randomPiece(){
+		int pieceChoice = pieceGenerator.nextInt(7);
+		Tetromino newPiece = null;
+		Point spawnPoint = new Point(0,0);
+		switch(pieceChoice){
+			case 0: 
+				newPiece = new Z_Piece(this, spawnPoint);
+				break;
+			case 1:
+				newPiece = new I_Piece(this, spawnPoint);
+				break;
+			case 2:
+				newPiece = new J_Piece(this, spawnPoint);
+				break;
+			case 3: 
+				newPiece = new L_Piece(this, spawnPoint);
+				break;
+			case 4:
+				newPiece = new T_Piece(this, spawnPoint);
+				break;
+			case 5:
+				newPiece = new S_Piece(this, spawnPoint);
+				break;
+			case 6:
+				newPiece = new O_Piece(this, spawnPoint);
+				break;
+		}
+		return newPiece;
+	}
+	
 	public void addNewPiece(){
-		activePiece = new I_Piece(this, new Point(getWidth()/10, 50));
+		activePiece = randomPiece();
 		tetrominos.add(activePiece);
+		nextPiece = randomPiece();
+		window.getNextPanel().setBlock(nextPiece);
+		window.getNextPanel().repaint();
+		//window.getNextPanel();
+	}
+	
+	public void useNextPiece(){
+		activePiece = nextPiece;
+		nextPiece = randomPiece();
 	}
 	
 	/**
@@ -77,7 +122,11 @@ public class PlayScreen extends JPanel{
 	
 	public void lockPiece(){
 		usedTetrominos.add(activePiece);
-		addNewPiece();
+		if(holdPiece == null){
+			addNewPiece();
+		} else {
+			useNextPiece();
+		}
 	}
 	
 	public Tetromino getActivePiece(){
@@ -95,9 +144,8 @@ public class PlayScreen extends JPanel{
 				g2.draw(block);
 			}
 		}
-		
-
 	}
+	
 	/**
 	 * Private inner class to listen for keyboard input and
 	 * manipulate the game accordingly.
@@ -128,10 +176,28 @@ public class PlayScreen extends JPanel{
 				case KeyEvent.VK_LEFT:
 					System.out.println("Tetromino Moved Left");
 					activePiece.moveLeft();
+					for(Block block : activePiece.getBlocks()){
+						for(Tetromino piece : usedTetrominos){
+							for(Block block2 : piece.getBlocks()){
+								if(block.intersects(block2)){
+									activePiece.moveRight();
+								}
+							}
+						}
+					}
 					break;
 				case KeyEvent.VK_RIGHT:
 					System.out.println("Tetromino Moved Right");
 					activePiece.moveRight();
+					for(Block block : activePiece.getBlocks()){
+						for(Tetromino piece : usedTetrominos){
+							for(Block block2 : piece.getBlocks()){
+								if(block.intersects(block2)){
+									activePiece.moveLeft();
+								}
+							}
+						}
+					}
 					break;
 				case KeyEvent.VK_UP:
 					System.out.println("Tetromino Rotated");

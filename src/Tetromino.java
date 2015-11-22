@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import javax.swing.JComponent;
 
 
-public abstract class Tetromino extends JComponent{
+public abstract class Tetromino extends JComponent implements Cloneable{
 	
 	private PlayScreen screen;
 	protected Block[] blocks = new Block[4];
@@ -27,6 +27,20 @@ public abstract class Tetromino extends JComponent{
 	
 	public abstract void rotate();
 	
+	public abstract void setPieces();
+	
+	public Object clone() {
+		Tetromino newPiece = null;
+		try {
+	        newPiece = (Tetromino)super.clone();
+	    }
+	    	catch (CloneNotSupportedException e) {
+	    }
+		return newPiece;
+	}
+
+	    //getters and setters for the fields should go here........
+	
 	public void drop(){
 		boolean droppable = true;
 
@@ -39,6 +53,7 @@ public abstract class Tetromino extends JComponent{
 			this.setLocation(this.getLocation().x,this.getLocation().y+screen.getDropRate());
 			if(getLocation().getY() >= screen.getHeight() - (4*blockSideLength)){
 				setLocation((int)getLocation().getX(), screen.getHeight()-(4*blockSideLength));
+				setPieces();
 			}
 			for(Block block : blocks){
 				block.y += screen.getDropRate();
@@ -53,15 +68,6 @@ public abstract class Tetromino extends JComponent{
 		for(Block block : blocks){
 			if(block.getX() >= (screen.getWidth()-blockSideLength)){
 				moveable = false;
-			}
-			if(screen.getUsedTetrominos().size() != 0){
-				for(Tetromino piece : screen.getUsedTetrominos()){
-					for(Block block2 : piece.getBlocks()){
-						if(block.intersects(block2)){
-							moveable = false;
-						}
-					}
-				}
 			}
 		}
 		if(moveable){

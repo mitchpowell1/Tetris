@@ -1,3 +1,7 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 /**
@@ -10,6 +14,8 @@ import javax.swing.JPanel;
  */
 public class BlockDisplayPanel extends JPanel {
 
+	private Tetromino displayPiece;
+	
 	/**
 	 * Instructions for displaying a particular Tetromino
 	 * 
@@ -19,8 +25,21 @@ public class BlockDisplayPanel extends JPanel {
 	public void displayBlock(GameWindow w) {
 		System.out.println("Block");
 	}
+	
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		if(displayPiece != null){
+			for(Block block : displayPiece.getBlocks()){
+				g2.setColor(displayPiece.getColor());
+				g2.fill(block);
+				g2.setColor(Color.BLACK);
+				g2.draw(block);
+			}	
+		}
+	}
 
-	public void setBlock() {
-
+	public void setBlock(Tetromino piece) {
+		this.displayPiece = piece;
 	}
 }

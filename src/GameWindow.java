@@ -1,9 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +13,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +29,7 @@ public class GameWindow extends JFrame {
 
 	private Font gameFont;
 	private Timer timer;
+	private Timer preTimer;
 	private ImageIcon backgroundIMG;
 	private JLabel background;
 	private PlayScreen screen;
@@ -40,12 +37,13 @@ public class GameWindow extends JFrame {
 	private NextBlockPanel next;
 	private HoldBlockPanel hold;
 	private JLabel logo;
+	private JLabel countDownLabel;
+	private int countDown;
 	private StartMenu start;
 	private PauseMenu pause;
 	private int time;
 	private Media themeSong;
 	private MediaPlayer player;
-	private GameKeyListener menuListener;
 	private PauseButton pauseButton;
 	private int level = 1;
 	public double DEFAULTVOLUME = 0.0;
@@ -57,7 +55,6 @@ public class GameWindow extends JFrame {
 		
 		setTitle("Tetris 2: Son of Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		menuListener = new GameKeyListener();
 		this.setSize(1200, 750);
 		this.setResizable(false);
 		setLayout(new BorderLayout());
@@ -65,7 +62,7 @@ public class GameWindow extends JFrame {
 		createBackground();
 		initializeInstanceVars();
 
-		addKeyListener(menuListener);
+		add(countDownLabel);
 		add(pause);
 		add(screen);
 		add(stats);
@@ -96,9 +93,10 @@ public class GameWindow extends JFrame {
 	public void initializeInstanceVars() {
 
 		time = 0;
+		countDown = 3;
 		pauseButton = new PauseButton(this);
+		preTimer = new Timer(1000,new PreTimeListener());
 		timer = new Timer(200, new GameTimeListener());
-		timer.setInitialDelay(3000);
 		logo = new JLabel("TETRIS");
 		logo.setFont(new Font("Arial Black", Font.PLAIN, 50));
 		logo.setForeground(Color.BLACK);
@@ -106,18 +104,27 @@ public class GameWindow extends JFrame {
 		logo.setSize(250,100);
 		logo.setBackground(Color.BLACK);
 		logo.setLocation(850,465);
+		
+		countDownLabel = new JLabel("Game starts in " +countDown);
+		countDownLabel.setFont(new Font("Arial Black", Font.PLAIN, 30));
+		countDownLabel.setForeground(Color.WHITE);
+		countDownLabel.setOpaque(false);
+		countDownLabel.setSize(400,100);
+		countDownLabel.setBackground(Color.BLACK);
+		countDownLabel.setLocation(450,200);
+		
 		gameFont = new Font("Arial", Font.PLAIN, 25);
 		start = new StartMenu(this);
-		start.addKeyListener(menuListener);
+		next = new NextBlockPanel(this);
 		screen = new PlayScreen(this);
 		stats = new StatsWindow(this);
-		next = new NextBlockPanel(this);
 		hold = new HoldBlockPanel(this);
 		pause = new PauseMenu(this);
 		screen.setVisible(false);
 		stats.setVisible(false);
 		next.setVisible(false);
 		hold.setVisible(false);
+		countDownLabel.setVisible(false);
 		pauseButton.setVisible(false);
 		pause.setVisible(false);
 	}
@@ -145,14 +152,13 @@ public class GameWindow extends JFrame {
 	 * Starts the timer and displays the gameplay components
 	 */
 	public void startGame() {
-		start.removeKeyListener(menuListener);
-		pause.removeKeyListener(menuListener);
-		timer.start();
+		countDownLabel.setVisible(true);
+		preTimer.start();
 		start.setVisible(false);
 		pause.setVisible(false);
 		logo.setVisible(true);
-		screen.setVisible(true);
-		screen.startKeyListening();
+		screen.setVisible(false);
+		//screen.startKeyListening();
 		screen.requestFocusInWindow();
 		stats.setVisible(true);
 		next.setVisible(true);
@@ -161,6 +167,10 @@ public class GameWindow extends JFrame {
 		revalidate();
 	}
 
+	public NextBlockPanel getNextPanel(){
+		return next;
+	}
+	
 	/**
 	 * Stops the timer and shows the pause menu component
 	 */
@@ -193,6 +203,10 @@ public class GameWindow extends JFrame {
 		return gameFont;
 	}
 
+	public PauseMenu getPauseMenu(){
+		return pause;
+	}
+	
 	/**
 	 * The Media Player that plays the Tetris theme music
 	 * 
@@ -218,10 +232,28 @@ public class GameWindow extends JFrame {
 			screen.getActivePiece().drop();
 		}
 	}
+	
+	private class PreTimeListener implements ActionListener {
 
-	public PauseMenu getPauseMenu(){
-		return pause;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			countDown -= 1;
+			System.out.println(countDownLabel.getText());
+			if(countDown == 0){
+				preTimer.stop();
+				countDownLabel.setVisible(false);
+				countDown = 3;
+				countDownLabel.setText("Game starts in "+countDown);
+				screen.setVisible(true);
+				screen.startKeyListening();
+				timer.start();
+			} else {
+				countDownLabel.setText("Game starts in "+countDown);
+			}
+		}
+		
 	}
+	
 	
 	/**
 	 * creates a new GameWindow
@@ -231,58 +263,5 @@ public class GameWindow extends JFrame {
 	 */
 	public static void main(String[] args) {
 		new GameWindow();
-
-	}
-	
-	/**
-	 * This private inner class listens for keyboard input to adjust the volume
-	 * of the theme song.
-	 * 
-	 * @author Mitch Powell
-	 *
-	 */
-	private class GameKeyListener implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			System.out.println("Key Pressed in menu screen");
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_M:
-				player.setMute(!player.isMute());
-				pause.getMuteBox().setSelected(player.isMute());
-				break;
-			case KeyEvent.VK_MINUS:
-				if(player.getVolume() <= .1){
-					player.setVolume(0);
-				} else {
-					player.setVolume(
-							player.getVolume() - .1);	
-				}
-				pause.getVolumeSlider().setValue((int) Math.round(player.getVolume() * 10));
-				break;
-			case KeyEvent.VK_EQUALS:
-				if(player.getVolume() >= .9){
-					player.setVolume(1);
-				} else {
-					player.setVolume(
-						player.getVolume() + .1);
-				}
-				pause.getVolumeSlider().setValue((int) Math.round(player.getVolume() * 10));
-				break;
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
 	}
 }
