@@ -41,5 +41,6 @@ public class BlockDisplayPanel extends JPanel {
 
 	public void setBlock(Tetromino piece) {
 		this.displayPiece = piece;
+		displayPiece.setLocation(0,0);
 	}
 }

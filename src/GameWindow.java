@@ -46,7 +46,7 @@ public class GameWindow extends JFrame {
 	private MediaPlayer player;
 	private PauseButton pauseButton;
 	private int level = 1;
-	public double DEFAULTVOLUME = 0.0;
+	public double DEFAULTVOLUME = 0.2;
 
 	/**
 	 * Constructor for a game window class.
@@ -169,6 +169,10 @@ public class GameWindow extends JFrame {
 
 	public NextBlockPanel getNextPanel(){
 		return next;
+	}
+	
+	public HoldBlockPanel getHoldPanel(){
+		return hold;
 	}
 	
 	/**

@@ -104,12 +104,14 @@ public class PlayScreen extends JPanel{
 		nextPiece = randomPiece();
 		window.getNextPanel().setBlock(nextPiece);
 		window.getNextPanel().repaint();
-		//window.getNextPanel();
 	}
 	
 	public void useNextPiece(){
-		activePiece = nextPiece;
+		tetrominos.add(nextPiece);
+		activePiece = tetrominos.get(tetrominos.size() -1);
 		nextPiece = randomPiece();
+		window.getNextPanel().setBlock(nextPiece);
+		window.getNextPanel().repaint();
 	}
 	
 	/**
@@ -122,12 +124,33 @@ public class PlayScreen extends JPanel{
 	
 	public void lockPiece(){
 		usedTetrominos.add(activePiece);
-		if(holdPiece == null){
+		if(nextPiece == null){
 			addNewPiece();
 		} else {
 			useNextPiece();
 		}
 	}
+	
+	public void useHoldPiece(){
+		if(holdPiece == null){
+			holdPiece = ((Tetromino)activePiece.clone());
+			tetrominos.remove(activePiece);
+			window.getHoldPanel().setBlock(holdPiece);
+			window.getHoldPanel().repaint();
+			useNextPiece();
+		} else {
+			activePiece.setLocation(0,0);
+			Tetromino temp = (Tetromino)activePiece.clone();
+			tetrominos.remove(activePiece);
+			activePiece = (Tetromino) holdPiece.clone();
+			tetrominos.add(activePiece);
+			holdPiece = temp;
+			window.getHoldPanel().setBlock(holdPiece);
+			window.getHoldPanel().repaint();
+			
+		}
+	}
+	
 	
 	public Tetromino getActivePiece(){
 		return this.activePiece;
@@ -168,6 +191,9 @@ public class PlayScreen extends JPanel{
 			switch(e.getKeyCode()){
 				case KeyEvent.VK_P:
 					window.pauseGame();
+					break;
+				case KeyEvent.VK_H:
+					useHoldPiece();
 					break;
 				case KeyEvent.VK_SPACE:
 					System.out.println("Tetromino Hard Dropped");
