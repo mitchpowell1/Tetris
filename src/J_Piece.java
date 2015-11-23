@@ -53,4 +53,13 @@ public class J_Piece extends Tetromino {
 
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public void setPieces() {
+		// TODO Auto-generated method stub
+
+	}
+
+>>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 }

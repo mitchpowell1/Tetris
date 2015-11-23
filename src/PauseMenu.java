@@ -140,7 +140,10 @@ public class PauseMenu extends JPanel {
 		muteLabel.setForeground(Color.LIGHT_GRAY);
 		
 		muteToggle = new JCheckBox();
+<<<<<<< HEAD
 		muteToggle.setOpaque(false);
+=======
+>>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 		muteToggle.addActionListener(new ActionListener(){
 
 			@Override
@@ -185,6 +188,7 @@ public class PauseMenu extends JPanel {
 		
 		volumeSlider = new JSlider(0,10);
 		volumeSlider.setPaintLabels(true);
+<<<<<<< HEAD
 		volumeSlider.setForeground(Color.WHITE);
 		
 		JLabel minLabel = new JLabel("Min");
@@ -205,6 +209,20 @@ public class PauseMenu extends JPanel {
 		slidePanel.add(volumeSlider, BorderLayout.EAST);
 		volumeSlider.setBackground(Color.WHITE);
 		volumeSlider.setOpaque(false);
+=======
+		volumeSlider.setBackground(Color.BLACK);
+		volumeSlider.setForeground(Color.WHITE);
+		
+		Hashtable labelTable = new Hashtable();
+		labelTable.put(new Integer(0), new JLabel("Min"));
+		labelTable.put(new Integer(10), new JLabel("Max"));
+		labelTable.put(new Integer(5), new JLabel("Just Right"));
+		volumeSlider.setLabelTable(labelTable);
+		
+		slidePanel.add(volumeSlider, BorderLayout.EAST);
+		volumeSlider.setBackground(Color.GRAY);
+		volumeSlider.setOpaque(true);
+>>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 		volumeSlider.setValue((int) Math.round(window.getPlayer().getVolume()*10));
 		volumeSlider.addChangeListener(new ChangeListener(){
 

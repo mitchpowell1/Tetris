@@ -10,7 +10,10 @@ public class Block extends Rectangle{
 	private int position;
 	
 	public Block(Tetromino parentPiece, int position){
+<<<<<<< HEAD
 		this.position = position;
+=======
+>>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 		this.width = parentPiece.getBlockSideLength();
 		this.height = parentPiece.getBlockSideLength();
 		if(position < 4){

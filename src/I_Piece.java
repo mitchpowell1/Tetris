@@ -39,4 +39,21 @@ public class I_Piece extends Tetromino {
 		}
 
 	}
+<<<<<<< HEAD
 }
+=======
+	
+	public void setPieces() {
+		if(rotation == 1){
+			for(int i=0; i<4; i++){
+				blocks[i] = new Block(this,rotation_1[i]);
+			}
+		} else {
+			for(int i=0; i<4; i++){
+				blocks[i] = new Block(this,rotation_2[i]);
+			}
+		}
+	}
+
+}
+>>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
