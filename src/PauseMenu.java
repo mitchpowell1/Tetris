@@ -140,10 +140,7 @@ public class PauseMenu extends JPanel {
 		muteLabel.setForeground(Color.LIGHT_GRAY);
 		
 		muteToggle = new JCheckBox();
-<<<<<<< HEAD
 		muteToggle.setOpaque(false);
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 		muteToggle.addActionListener(new ActionListener(){
 
 			@Override

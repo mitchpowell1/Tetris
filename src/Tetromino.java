@@ -45,7 +45,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	public void setPieces(){
 		for(int i=0; i<4; i++){
 			int pos = blocks[i].getPosition();
-			System.out.println(pos);
 			blocks[i] = new Block(this, pos);
 		}
 	}
@@ -87,7 +86,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	 * Provides the logic for making the pieces fall
 	 */
 	public void drop(){
-		int floor = screen.getHeight() - screen.getDropRate();
 		boolean droppable = true;
 		
 		for(Block block : blocks){
@@ -97,14 +95,30 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 			}
 		}
 		if(droppable){
-			this.setLocation(getX(),getY()+screen.getDropRate());
-			if(getLocation().getY() >= screen.getHeight() - (4*blockSideLength)){
-				setLocation(getX(),(screen.getHeight() - (4*blockSideLength)));
-
-				setPieces();
-			}
+			blockCheckerLoop: //I'm sorry about the spaghetti code :(
 			for(Block block : blocks){
-				block.y += screen.getDropRate();
+				for(Tetromino piece : screen.getUsedTetrominos()){
+					for(Block block2 : piece.getBlocks()){
+						if(block.intersects(block2)){
+							System.out.println("Intersection");
+							setLocation(getX(),
+									(Math.round(getY()/blockSideLength)*blockSideLength)
+									);
+							setPieces();
+							screen.lockPiece();
+							break blockCheckerLoop;
+						}
+					}
+				}
+			}
+			this.setLocation(getX(),getY()+screen.getDropRate());
+			if(getLocation().getY() > screen.getHeight() - (4*blockSideLength)){
+				setLocation(getX(),(screen.getHeight() - (4*blockSideLength)));
+				setPieces();
+			} else {
+				for(Block block : blocks){
+					block.y += screen.getDropRate();
+				}
 			}
 		} else {
 			screen.lockPiece();
