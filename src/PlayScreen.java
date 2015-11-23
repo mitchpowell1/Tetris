@@ -59,39 +59,30 @@ public class PlayScreen extends JPanel{
 		addKeyListener(gameKeys);
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Returns the current piece drop rate
 	 * @return the current piece drop rate
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 	public int getDropRate(){
 		return this.dropRate;
 	}
 	
-<<<<<<< HEAD
+	
 	/**
 	 * Returns the List of used Tetrominos (All of the Tetrominos that require drawing
 	 * less the active piece.)
 	 * @return Used Tetromino list
 	 */
-=======
-	
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 	public ArrayList<Tetromino> getUsedTetrominos(){
 		return this.usedTetrominos;
 	}
-	
-<<<<<<< HEAD
-	
+		
 	/**
 	 * Creates a random type of Tetromino.
 	 * @return a random Tetromino subclass. (I_Piece, J_Piece, L_Piece, O_Piece, S_Piece,
 	 * 		Z_Piece, T_Piece)
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public Tetromino randomPiece(){
 		int pieceChoice = pieceGenerator.nextInt(7);
 		Tetromino newPiece = null;
@@ -122,12 +113,10 @@ public class PlayScreen extends JPanel{
 		return newPiece;
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Creates the very first piece, adds the next piece to the next Piece panel.
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 	public void addNewPiece(){
 		activePiece = randomPiece();
 		tetrominos.add(activePiece);
@@ -136,14 +125,12 @@ public class PlayScreen extends JPanel{
 		window.getNextPanel().repaint();
 	}
 	
-<<<<<<< HEAD
-	
+
 	/**
 	 * Pulls the nextPiece from the NextPiecePanel, sets it as the active piece and
 	 * generates the next piece, which is then displayed in the panel.
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public void useNextPiece(){
 		tetrominos.add(nextPiece);
 		activePiece = tetrominos.get(tetrominos.size() -1);
@@ -160,13 +147,12 @@ public class PlayScreen extends JPanel{
 		
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Locks the Active Piece on the screen, This is where the method call to check if
 	 * any rows have been completed should be placed.
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public void lockPiece(){
 		usedTetrominos.add(activePiece);
 		if(nextPiece == null){
@@ -176,21 +162,17 @@ public class PlayScreen extends JPanel{
 		}
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Pulls the piece from the hold panel, places the current piece in the hold panel.
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public void useHoldPiece(){
 		if(holdPiece == null){
 			holdPiece = ((Tetromino)activePiece.clone());
 			tetrominos.remove(activePiece);
-<<<<<<< HEAD
 			holdPiece.setLocation(0,0);
 			holdPiece.setPieces();
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 			window.getHoldPanel().setBlock(holdPiece);
 			window.getHoldPanel().repaint();
 			useNextPiece();
@@ -201,35 +183,29 @@ public class PlayScreen extends JPanel{
 			activePiece = (Tetromino) holdPiece.clone();
 			tetrominos.add(activePiece);
 			holdPiece = temp;
-<<<<<<< HEAD
 			holdPiece.setPieces();
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 			window.getHoldPanel().setBlock(holdPiece);
 			window.getHoldPanel().repaint();
 			
 		}
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Returns the active piece.
 	 * @return
 	 */
-=======
-	
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public Tetromino getActivePiece(){
 		return this.activePiece;
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Iterates through and draws every Tetromino in the UsedTetrominos list and
 	 * the Tetrominos list.
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -271,11 +247,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_SPACE:
 					System.out.println("Tetromino Hard Dropped");
-<<<<<<< HEAD
 					activePiece.hardDrop();
-=======
-					activePiece.setLocation(activePiece.getX(),height-4*activePiece.getBlockSideLength());
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 					break;
 				case KeyEvent.VK_LEFT:
 					System.out.println("Tetromino Moved Left");
@@ -309,11 +281,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("Tetromino Soft Dropped");
-<<<<<<< HEAD
 					activePiece.hardDrop();
-=======
-					activePiece.setLocation(activePiece.getX(),height - (4*activePiece.getBlockSideLength()));
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());

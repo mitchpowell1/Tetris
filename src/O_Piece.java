@@ -22,14 +22,4 @@ public class O_Piece extends Tetromino {
 		//There are no alternate orientations for the o_piece, so this method is left blank
 
 	}
-
-<<<<<<< HEAD
-=======
-	@Override
-	public void setPieces() {
-		// TODO Auto-generated method stub
-
-	}
-
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 }

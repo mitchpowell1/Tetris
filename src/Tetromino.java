@@ -7,8 +7,6 @@ import java.awt.Stroke;
 
 import javax.swing.JComponent;
 
-
-<<<<<<< HEAD
 /**
  * 
  * @author Mitch Powell
@@ -17,8 +15,6 @@ import javax.swing.JComponent;
  *
  */
 
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 public abstract class Tetromino extends JComponent implements Cloneable{
 	
 	private PlayScreen screen;
@@ -27,15 +23,14 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	protected int rotation;
 	private int blockSideLength;
 	
-<<<<<<< HEAD
+
 	/**
 	 * Constructor for the Tetromino class
 	 * @param s the playscreen the piece will be drawn on
 	 * @param p The point that the upper left corner of the pieces 4x4 block grid will be located
 	 * 
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public Tetromino(PlayScreen s, Point p){
 		this.screen = s;
 		setLocation(p);
@@ -47,7 +42,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	
 	public abstract void rotate();
 	
-<<<<<<< HEAD
 	public void setPieces(){
 		for(int i=0; i<4; i++){
 			int pos = blocks[i].getPosition();
@@ -55,11 +49,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 			blocks[i] = new Block(this, pos);
 		}
 	}
-	
-	//public abstract void setPieces();
-=======
-	public abstract void setPieces();
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 	
 	public Object clone() {
 		Tetromino newPiece = null;
@@ -72,8 +61,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	}
 
 	    //getters and setters for the fields should go here........
-	
-<<<<<<< HEAD
 	
 	public void hardDrop(){
 		boolean downShiftable = true;
@@ -113,35 +100,16 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 			this.setLocation(getX(),getY()+screen.getDropRate());
 			if(getLocation().getY() >= screen.getHeight() - (4*blockSideLength)){
 				setLocation(getX(),(screen.getHeight() - (4*blockSideLength)));
-=======
-	public void drop(){
-		boolean droppable = true;
 
-		for(Block block : blocks){
-			if(block.getY() > screen.getHeight()-blockSideLength){
-				droppable = false;
-			}
-		}
-		if(droppable){
-			this.setLocation(this.getLocation().x,this.getLocation().y+screen.getDropRate());
-			if(getLocation().getY() >= screen.getHeight() - (4*blockSideLength)){
-				setLocation((int)getLocation().getX(), screen.getHeight()-(4*blockSideLength));
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 				setPieces();
 			}
 			for(Block block : blocks){
 				block.y += screen.getDropRate();
 			}
 		} else {
-<<<<<<< HEAD
-			
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 			screen.lockPiece();
 		}
 	}
-	
-<<<<<<< HEAD
 	
 	/**
 	 * Provides Logic to move a tetromino one square to the left
@@ -167,26 +135,10 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 					int pos = blocks[i].getPosition();
 					blocks[i] = new Block(this, pos);
 				}
-=======
-	public void moveRight(){
-		boolean moveable = true;
-		for(Block block : blocks){
-			if(block.getX() >= (screen.getWidth()-blockSideLength)){
-				moveable = false;
-			}
-		}
-		if(moveable){
-			if(getX() < screen.getWidth() - (4*blockSideLength)){
-				this.setLocation(getX()+blockSideLength,getY());
-			}
-			for(Block block : blocks){
-				block.setLocation(block.x+blockSideLength, block.y);
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 			}
 		}
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * provides logic to move a tetromino one square to the right
 	 */
@@ -211,49 +163,28 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 					int pos = blocks[i].getPosition();
 					blocks[i] = new Block(this, pos);
 				}
-=======
-	public void moveLeft(){
-		boolean moveable = true;
-		for(Block block : blocks){
-			if(block.getX() <= 0){
-				moveable = false;
-			}
-		}
-		if (moveable){
-			if(getX() > 0){
-				setLocation(getX()-blockSideLength,getY());
-			}
-			for(Block block : blocks){
-				block.setLocation(block.x-blockSideLength, block.y);
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 			}
 		}
 	}
-	
-<<<<<<< HEAD
 	
 	/**
 	 * Returns the length of the sides of one of the blocks in the Tetromino
 	 * @return The Block side length
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 	public int getBlockSideLength(){
 		return this.blockSideLength;
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Returns the color of the Tetromino
 	 * @return the color of the Tetromino/
 	 */
-=======
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
+
 	public Color getColor(){
 		return this.color;
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Returns the array of Blocks
 	 * @return the array of Blocks
@@ -261,17 +192,4 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	public Block[] getBlocks(){
 		return blocks;
 	}
-=======
-	public Block[] getBlocks(){
-		return blocks;
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.BLACK);
-		g2.setStroke(new BasicStroke(2));
-		g2.draw(blocks[0]);;
-	}
->>>>>>> 06a9402c9ec87ab33a5a2f7758756f880a323397
 }
