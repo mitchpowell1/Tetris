@@ -29,10 +29,10 @@ public class S_Piece extends Tetromino {
 	 */
 	@Override
 	public void addBlocks() {
-		blocks[0] = new Block(this, 9);
-		blocks[1] = new Block(this, 10);
-		blocks[2] = new Block(this, 6);
-		blocks[3] = new Block(this, 7);
+		blocks[0] = new Block(this, 13);
+		blocks[1] = new Block(this, 14);
+		blocks[2] = new Block(this, 10);
+		blocks[3] = new Block(this, 11);
 		rotation = 1;
 	}
 

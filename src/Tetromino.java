@@ -116,12 +116,6 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 						if(block.intersects(block2)){
 							setLocation(getX(),getY()-1);
 							setPieces();
-							try {
-								Thread.sleep(50);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 							screen.lockPiece();
 							break outerLoop; //sorry :*(
 						}

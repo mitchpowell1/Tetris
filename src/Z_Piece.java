@@ -28,10 +28,10 @@ public class Z_Piece extends Tetromino {
 	 * Initializes the blocks to their starting orientation
 	 */
 	public void addBlocks() {
-		blocks[0] = new Block(this, 5);
-		blocks[1] = new Block(this, 6);
-		blocks[2] = new Block(this, 10);
-		blocks[3] = new Block(this, 11);
+		blocks[0] = new Block(this, 9);
+		blocks[1] = new Block(this, 10);
+		blocks[2] = new Block(this, 11);
+		blocks[3] = new Block(this, 14);
 		rotation = 1;
 
 	}
