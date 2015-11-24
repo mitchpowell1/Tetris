@@ -101,7 +101,7 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	/**
 	 * Provides the logic for making the pieces fall
 	 */
-	public void drop(){
+	public void drop(int dropDistance){
 		boolean droppable = true;
 		
 		for(Block block : blocks){
@@ -117,6 +117,8 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 					for(Block block2 : piece.getBlocks()){
 						if(block.intersects(block2)){
 							System.out.println("Intersection");
+							//Attempted to round to the nearest possible location to fix
+							//my drop function errors... there were some issues
 							setLocation(getX(),
 									(Math.round(getY()/blockSideLength)*blockSideLength)
 									);
@@ -127,13 +129,13 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 					}
 				}
 			}
-			this.setLocation(getX(),getY()+screen.getDropRate());
+			this.setLocation(getX(),getY()+dropDistance);
 			if(getLocation().getY() > screen.getHeight() - (4*blockSideLength)){
 				setLocation(getX(),(screen.getHeight() - (4*blockSideLength)));
 				setPieces();
 			} else {
 				for(Block block : blocks){
-					block.y += screen.getDropRate();
+					block.y += dropDistance;
 				}
 			}
 		} else {

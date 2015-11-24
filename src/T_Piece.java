@@ -21,9 +21,9 @@ public class T_Piece extends Tetromino {
 		super(s,p);
 		this.color = Color.LIGHT_GRAY;
 		rotation_1 = new int[]{5,6,7,10};
-		rotation_2 = new int[]{2,5,6,10};
-		rotation_3 = new int[]{2,5,6,7};
-		rotation_4 = new int[]{2,6,7,10};
+		rotation_2 = new int[]{6,9,10,14};
+		rotation_3 = new int[]{10,13,14,15};
+		rotation_4 = new int[]{6,10,11,14};
 	}
 
 	@Override

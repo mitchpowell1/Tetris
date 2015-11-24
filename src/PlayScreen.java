@@ -34,6 +34,7 @@ public class PlayScreen extends JPanel{
 	private Tetromino activePiece;
 	private Tetromino nextPiece;
 	private Tetromino holdPiece;
+	private Point spawnPoint;
 	/**
 	 * Constructor for the PlayScreen class
 	 * @param w the parent GameWindow
@@ -42,6 +43,7 @@ public class PlayScreen extends JPanel{
 		this.window = w;
 		this.setFocusable(true);
 		this.dropRate = 10;
+		spawnPoint = new Point(3*(WIDTH/10),-150);
 		pieceGenerator = new Random();
 		tetrominos = new ArrayList<Tetromino>();
 		usedTetrominos = new ArrayList<Tetromino>();
@@ -89,7 +91,6 @@ public class PlayScreen extends JPanel{
 	public Tetromino randomPiece(){
 		int pieceChoice = pieceGenerator.nextInt(7);
 		Tetromino newPiece = null;
-		Point spawnPoint = new Point(0,0);
 		switch(pieceChoice){
 			case 0: 
 				newPiece = new Z_Piece(this, spawnPoint);
@@ -122,8 +123,11 @@ public class PlayScreen extends JPanel{
 	 */
 	public void addNewPiece(){
 		activePiece = randomPiece();
+		activePiece.setPieces();
 		tetrominos.add(activePiece);
 		nextPiece = randomPiece();
+		nextPiece.setLocation(0,0);
+		nextPiece.setPieces();
 		window.getNextPanel().setBlock(nextPiece);
 		window.getNextPanel().repaint();
 	}
@@ -137,7 +141,11 @@ public class PlayScreen extends JPanel{
 	public void useNextPiece(){
 		tetrominos.add(nextPiece);
 		activePiece = tetrominos.get(tetrominos.size() -1);
+		activePiece.setLocation(spawnPoint);
+		activePiece.setPieces();
 		nextPiece = randomPiece();
+		nextPiece.setLocation(0,0);
+		nextPiece.setPieces();
 		window.getNextPanel().setBlock(nextPiece);
 		window.getNextPanel().repaint();
 	}
@@ -157,7 +165,17 @@ public class PlayScreen extends JPanel{
 	 */
 
 	public void lockPiece(){
+		System.out.println("Locked");
 		usedTetrominos.add(activePiece);
+		for(Tetromino piece : usedTetrominos){
+			for(Block block : piece.getBlocks()){
+				if(block.getY() <= 0){
+					window.getTimer().stop();
+					window.getCountDownLabel().setText("You get Nothing! You Lose!");
+					window.getCountDownLabel().setVisible(true);
+				}
+			}
+		}
 		if(nextPiece == null){
 			addNewPiece();
 		} else {
@@ -284,7 +302,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("Tetromino Soft Dropped");
-					activePiece.hardDrop();
+					activePiece.drop(50);
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());
