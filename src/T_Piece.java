@@ -1,13 +1,22 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The T-Shaped Tetromino piece
+ * @author Mitch Powell
+ *
+ */
 public class T_Piece extends Tetromino {
 	private int[] rotation_1;
 	private int[] rotation_2;
 	private int[] rotation_3;
 	private int[] rotation_4;
 	
+	/**
+	 * Constructor for a T_Piece object
+	 * @param s the screen that the piece is drawn on
+	 * @param p the point that the blocks are drawn in reference to.
+	 */
 	public T_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.LIGHT_GRAY;
@@ -18,6 +27,9 @@ public class T_Piece extends Tetromino {
 	}
 
 	@Override
+	/**
+	 * Initializes the blocks in the piece
+	 */
 	public void addBlocks() {
 		blocks[0] = new Block(this, 5);
 		blocks[1] = new Block(this, 6);
@@ -27,6 +39,9 @@ public class T_Piece extends Tetromino {
 	}
 
 	@Override
+	/**
+	 * Rotates the tetromino
+	 */
 	public void rotate() {
 		if(rotation == 1){
 			for(int i = 0; i<4; i++){

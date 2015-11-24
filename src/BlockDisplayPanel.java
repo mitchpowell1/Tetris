@@ -26,6 +26,9 @@ public class BlockDisplayPanel extends JPanel {
 		System.out.println("Block");
 	}
 	
+	/**
+	 * Displays the piece that is held in the panel
+	 */
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -39,6 +42,10 @@ public class BlockDisplayPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Changes the block in the panel
+	 * @param piece the block to be displayed in the panel
+	 */
 	public void setBlock(Tetromino piece) {
 		this.displayPiece = piece;
 		displayPiece.setLocation(0,0);

@@ -1,12 +1,21 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The Z-Shaped Tetromino piece
+ * @author Mitch Powell
+ *
+ */
 public class Z_Piece extends Tetromino {
 
 	private int[] rotation_1;
 	private int[] rotation_2;
 	
+	/**
+	 * Constructor for the Z_Piece
+	 * @param s the screen that the piece should be drawn on
+	 * @param p the point that the blocks are drawn in reference to.
+	 */
 	public Z_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.GREEN;
@@ -15,6 +24,9 @@ public class Z_Piece extends Tetromino {
 	}
 	
 	@Override
+	/**
+	 * Initializes the blocks to their starting orientation
+	 */
 	public void addBlocks() {
 		blocks[0] = new Block(this, 5);
 		blocks[1] = new Block(this, 6);
@@ -25,6 +37,9 @@ public class Z_Piece extends Tetromino {
 	}
 
 	@Override
+	/**
+	 * rotates the piece
+	 */
 	public void rotate() {
 		if(rotation == 1){
 			for(int i=0; i<4; i++){

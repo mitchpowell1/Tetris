@@ -1,12 +1,21 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The Long, thin Tetromino
+ * @author Mitch Powell
+ *
+ */
 public class I_Piece extends Tetromino {
 	
 	private int[] rotation_1;
 	private int[] rotation_2;
 
+	/**
+	 * Constructor for the I_Piece class
+	 * @param s the screen the piece is being displayed on
+	 * @param p the point that the blocks will refer to for their coordinates.
+	 */
 	public I_Piece(PlayScreen s, Point p) {
 		super(s, p);
 		this.color = Color.RED;
@@ -15,7 +24,9 @@ public class I_Piece extends Tetromino {
 	}
 
 	@Override
-	//Places the blocks of the tetromino in their initial positions.
+	/**
+	 * Puts the blocks in their initial positions
+	 */
 	public void addBlocks() {
 		blocks[0] = new Block(this, 2);
 		blocks[1] = new Block(this, 6);
@@ -25,6 +36,9 @@ public class I_Piece extends Tetromino {
 	}
 
 	@Override
+	/**
+	 * Rotates the piece into its next rotation
+	 */
 	public void rotate() {
 		if(rotation == 1){
 			for(int i=0; i<4; i++){

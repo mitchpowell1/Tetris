@@ -167,10 +167,19 @@ public class GameWindow extends JFrame {
 		revalidate();
 	}
 
+	
+	/**
+	 * Returns the panel that displays the next block to be used
+	 * @return The Next Block Panel
+	 */
 	public NextBlockPanel getNextPanel(){
 		return next;
 	}
 	
+	/**
+	 * Returns the panel that displays the block on hold
+	 * @return the Hold Block
+	 */
 	public HoldBlockPanel getHoldPanel(){
 		return hold;
 	}
@@ -207,6 +216,11 @@ public class GameWindow extends JFrame {
 		return gameFont;
 	}
 
+	
+	/**
+	 * Returns the pause menu panel
+	 * @return pause menu panel
+	 */
 	public PauseMenu getPauseMenu(){
 		return pause;
 	}
@@ -237,6 +251,11 @@ public class GameWindow extends JFrame {
 		}
 	}
 	
+	/**
+	 * Used to countdown to the beginning of the game
+	 * @author Mitch Powell
+	 *
+	 */
 	private class PreTimeListener implements ActionListener {
 
 		@Override

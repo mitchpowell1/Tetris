@@ -109,6 +109,9 @@ public class PauseMenu extends JPanel {
 		buttonPanel.add(reset);
 	}
 	
+	/**
+	 * Creates the volume controls and their panels.
+	 */
 	public void instantiateVolumeControls(){
 		
 		

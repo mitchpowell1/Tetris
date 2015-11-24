@@ -1,7 +1,11 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The J-shaped Tetromino piece
+ * @author Mitch Powell
+ *
+ */
 public class J_Piece extends Tetromino {
 
 	private int[] rotation_1;
@@ -9,6 +13,11 @@ public class J_Piece extends Tetromino {
 	private int[] rotation_3;
 	private int[] rotation_4;
 	
+	/**
+	 * Constructor for the J_Piece
+	 * @param s the screen the J_Piece is drawn on
+	 * @param p the point that the blocks are constructed in reference to.
+	 */
 	public J_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.PINK;
@@ -18,7 +27,11 @@ public class J_Piece extends Tetromino {
 		rotation_4 = new int[]{13,14,10,6};
 		
 	}
+	
 	@Override
+	/**
+	 * Initializes the blocks in the tetromino
+	 */
 	public void addBlocks() {
 		blocks[0] = new Block(this, 9);
 		blocks[1] = new Block(this, 13);
@@ -27,6 +40,10 @@ public class J_Piece extends Tetromino {
 		rotation = 1;
 	}
 
+	
+	/**
+	 * Rotates the piece
+	 */
 	@Override
 	public void rotate() {
 		if(rotation == 1){

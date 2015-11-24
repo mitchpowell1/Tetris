@@ -1,12 +1,21 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The S-shaped Tetromino piece
+ * @author Mitch Powell
+ *
+ */
 public class S_Piece extends Tetromino {
 
 	private int[] rotation_1;
 	private int[] rotation_2;
 	
+	/**
+	 * Constructor for the S_Piece object
+	 * @param s the screen the piece will be drawn on
+	 * @param p the point the blocks will be drawn in reference to.
+	 */
 	public S_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.BLUE;
@@ -15,6 +24,9 @@ public class S_Piece extends Tetromino {
 		
 	}
 	
+	/**
+	 * Initializes the blocks
+	 */
 	@Override
 	public void addBlocks() {
 		blocks[0] = new Block(this, 9);
@@ -24,6 +36,9 @@ public class S_Piece extends Tetromino {
 		rotation = 1;
 	}
 
+	/**
+	 * Rotates the piece.
+	 */
 	@Override
 	public void rotate() {
 		if(rotation == 1){

@@ -22,6 +22,10 @@ public class StartMenu extends JPanel {
 	private JPanel instructionPanel;
 	private GameWindow window;
 
+	/**
+	 * Constructor for the start menu
+	 * @param w the Window to draw the start menu onto.
+	 */
 	public StartMenu(GameWindow w) {
 		setFocusable(true);
 		this.window = w;

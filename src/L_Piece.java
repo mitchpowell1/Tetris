@@ -1,7 +1,11 @@
 import java.awt.Color;
 import java.awt.Point;
 
-
+/**
+ * The L-shaped Tetromino piece.
+ * @author Mitch Powell
+ *
+ */
 public class L_Piece extends Tetromino {
 
 	private int[] rotation_1;
@@ -9,6 +13,11 @@ public class L_Piece extends Tetromino {
 	private int[] rotation_3;
 	private int[] rotation_4;
 	
+	/**
+	 * Constructor for the L_Piece
+	 * @param s the screen the piece is drawn on
+	 * @param p the point the blocks are drawn in reference to
+	 */
 	public L_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.YELLOW;
@@ -18,6 +27,10 @@ public class L_Piece extends Tetromino {
 		rotation_4 = new int[]{14,10,6,5};
 		
 	}
+	
+	/**
+	 * Initializes the blocks
+	 */
 	@Override
 	public void addBlocks() {
 		blocks[0] = new Block(this, 13);
@@ -27,6 +40,9 @@ public class L_Piece extends Tetromino {
 		rotation = 1;
 	}
 
+	/**
+	 * Method to rotate the piece.
+	 */
 	@Override
 	public void rotate() {
 		if(rotation == 1){

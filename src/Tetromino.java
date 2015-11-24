@@ -38,10 +38,19 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 		addBlocks();
 	}
 	
+	/**
+	 * Abstract method for initializing the blocks in the tetromino
+	 */
 	public abstract void addBlocks();
-	
+
+	/**
+	 * Abstract method for rotating the tetromino
+	 */
 	public abstract void rotate();
 	
+	/**
+	 * realigns the blocks with the reference point
+	 */
 	public void setPieces(){
 		for(int i=0; i<4; i++){
 			int pos = blocks[i].getPosition();
@@ -49,6 +58,10 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 		}
 	}
 	
+	/**
+	 * Standard clone method, implemented to avoid pointer errors when copying the
+	 * activePiece in the PlayScreen to the holdPiece and vice versa.
+	 */
 	public Object clone() {
 		Tetromino newPiece = null;
 		try {
@@ -59,8 +72,11 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 		return newPiece;
 	}
 
-	    //getters and setters for the fields should go here........
 	
+	/**
+	 * Drops the Tetromino all the way to the bottom of the screen...
+	 * Doesn't work quite the way that it should
+	 */
 	public void hardDrop(){
 		boolean downShiftable = true;
 		for(Block block : blocks){
