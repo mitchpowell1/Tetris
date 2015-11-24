@@ -19,8 +19,8 @@ public class Z_Piece extends Tetromino {
 	public Z_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.GREEN;
-		rotation_1 = new int[]{5,6,10,11};
-		rotation_2 = new int[]{3,7,6,10};
+		rotation_1 = new int[]{9,10,14,15};
+		rotation_2 = new int[]{7,10,11,14};
 	}
 	
 	@Override

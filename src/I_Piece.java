@@ -20,7 +20,7 @@ public class I_Piece extends Tetromino {
 		super(s, p);
 		this.color = Color.RED;
 		rotation_1 = new int[]{2,6,10,14};
-		rotation_2 = new int[]{8,9,10,11};
+		rotation_2 = new int[]{12,13,14,15};
 	}
 
 	@Override

@@ -23,10 +23,10 @@ public class O_Piece extends Tetromino {
 	 * Initializes the blocks.
 	 */
 	public void addBlocks() {
-		blocks[0] = new Block(this, 5);
-		blocks[1] = new Block(this, 6);
-		blocks[2] = new Block(this, 10);
-		blocks[3] = new Block(this, 9);
+		blocks[0] = new Block(this, 9);
+		blocks[1] = new Block(this, 10);
+		blocks[2] = new Block(this, 13);
+		blocks[3] = new Block(this, 14);
 
 	}
 

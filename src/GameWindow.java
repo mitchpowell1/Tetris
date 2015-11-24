@@ -109,7 +109,7 @@ public class GameWindow extends JFrame {
 		countDownLabel.setFont(new Font("Arial Black", Font.PLAIN, 30));
 		countDownLabel.setForeground(Color.WHITE);
 		countDownLabel.setOpaque(false);
-		countDownLabel.setSize(600,100);
+		countDownLabel.setSize(450,100);
 		countDownLabel.setBackground(Color.BLACK);
 		countDownLabel.setLocation(450,200);
 		
@@ -247,11 +247,11 @@ public class GameWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			time += 200;
-			screen.repaint();
+			//screen.repaint();
 			if(time % 1000 == 0){
 				stats.getTimeLabel().setText("Time: " + time/1000 + "\n");
 			}
-			screen.getActivePiece().drop(screen.getDropRate());
+			screen.getActivePiece().drop(screen.getDropRate(),true);
 		}
 	}
 	

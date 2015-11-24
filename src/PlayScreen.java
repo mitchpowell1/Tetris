@@ -172,6 +172,7 @@ public class PlayScreen extends JPanel{
 				if(block.getY() <= 0){
 					window.getTimer().stop();
 					window.getCountDownLabel().setText("You get Nothing! You Lose!");
+					window.getCountDownLabel().setOpaque(true);
 					window.getCountDownLabel().setVisible(true);
 				}
 			}
@@ -268,7 +269,8 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_SPACE:
 					System.out.println("Tetromino Hard Dropped");
-					activePiece.hardDrop();
+					activePiece.drop(getHeight(),false);
+					repaint();
 					break;
 				case KeyEvent.VK_LEFT:
 					System.out.println("Tetromino Moved Left");
@@ -302,7 +304,7 @@ public class PlayScreen extends JPanel{
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("Tetromino Soft Dropped");
-					activePiece.drop(50);
+					activePiece.drop(50,true);
 					break;
 				case KeyEvent.VK_M:
 					window.getPlayer().setMute(!window.getPlayer().isMute());

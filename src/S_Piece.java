@@ -19,7 +19,7 @@ public class S_Piece extends Tetromino {
 	public S_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.BLUE;
-		rotation_1 = new int[]{9,10,6,7};
+		rotation_1 = new int[]{13,14,10,11};
 		rotation_2 = new int[]{5,9,10,14};
 		
 	}

@@ -21,9 +21,9 @@ public class L_Piece extends Tetromino {
 	public L_Piece(PlayScreen s, Point p){
 		super(s,p);
 		this.color = Color.YELLOW;
-		rotation_1 = new int[]{9,10,11,7};
+		rotation_1 = new int[]{13,14,15,11};
 		rotation_2 = new int[]{5,9,13,14};
-		rotation_3 = new int[]{9,5,6,7};
+		rotation_3 = new int[]{9,10,11,13};
 		rotation_4 = new int[]{14,10,6,5};
 		
 	}
