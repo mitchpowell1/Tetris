@@ -3,6 +3,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * The PlayScreenClass is an extension of the JPanel class which displays the
@@ -158,6 +162,48 @@ public class PlayScreen extends JPanel{
 		
 	}
 	
+	public void checkRows(){
+		int side = (getWidth()/10);
+		Rectangle checkRect = new Rectangle(side,side);
+		int row = 0;
+		boolean lineCleared = false;
+		while((row<20) && !lineCleared){
+			row += 1;
+			int blocksInRow = 0;
+			for(int col = 0; col<10; col ++){
+				checkRect.setLocation((col*side),(row*side));
+				outer:
+				for(Tetromino piece : usedTetrominos){
+					for(int i=0; i<4; i++){
+						if(piece.getBlocks()[i] != null &&
+								checkRect.intersects(piece.getBlocks()[i])){
+							blocksInRow += 1;
+							break outer;
+						}
+					}
+				}
+			}
+			System.out.println(blocksInRow + " Blocks in row");
+			if(blocksInRow == 10){
+				lineCleared = true;
+				for(int k=0; k<10; k++){
+					checkRect.setLocation(k*side,row*side);
+					for(Tetromino piece2 : usedTetrominos){
+						for(int j=0; j<4; j++){
+							if(piece2.getBlocks()[j] != null &&
+									piece2.getBlocks()[j].intersects(checkRect)){
+								piece2.getBlocks()[j] = null;
+							}
+						}
+					}
+				}
+				for(Tetromino piece : usedTetrominos){
+					piece.drop(100,false);
+				}
+				System.out.println("Row "+row+" cleared");
+			}
+		}
+	}
 
 	/**
 	 * Locks the Active Piece on the screen, This is where the method call to check if
@@ -165,11 +211,12 @@ public class PlayScreen extends JPanel{
 	 */
 
 	public void lockPiece(){
-		System.out.println("Locked");
 		usedTetrominos.add(activePiece);
+		//checkRows();
 		for(Tetromino piece : usedTetrominos){
-			for(Block block : piece.getBlocks()){
-				if(block.getY() <= 0){
+			for(int i=0; i<4; i++){
+				if(piece.getBlocks()[i] != null &&
+						piece.getBlocks()[i].getY() <= 0){
 					window.getTimer().stop();
 					window.getCountDownLabel().setText("You get Nothing! You Lose!");
 					window.getCountDownLabel().setOpaque(true);
@@ -231,12 +278,15 @@ public class PlayScreen extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.red);
 		for(Tetromino piece: tetrominos){
-			for(Block block : piece.getBlocks()){
-				g2.setColor(piece.getColor());
-				g2.fill(block);
-				g2.setColor(Color.DARK_GRAY);
-				g2.draw(block);
+			for(int i=0; i<4; i++){
+				if(piece.getBlocks()[i] != null){
+					g2.setColor(piece.getColor());
+					g2.fill(piece.getBlocks()[i]);
+					g2.setColor(Color.DARK_GRAY);
+					g2.draw(piece.getBlocks()[i]);
+				}
 			}
 		}
 	}
@@ -290,8 +340,9 @@ public class PlayScreen extends JPanel{
 					activePiece.moveRight();
 					for(Block block : activePiece.getBlocks()){
 						for(Tetromino piece : usedTetrominos){
-							for(Block block2 : piece.getBlocks()){
-								if(block.intersects(block2)){
+							for(int i=0; i<4; i++){
+								if(piece.getBlocks()[i] != null &&
+										block.intersects(piece.getBlocks()[i])){
 									activePiece.moveLeft();
 								}
 							}

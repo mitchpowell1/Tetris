@@ -53,8 +53,10 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 	 */
 	public void setPieces(){
 		for(int i=0; i<4; i++){
-			int pos = blocks[i].getPosition();
-			blocks[i] = new Block(this, pos);
+			if(blocks[i] != null){
+				int pos = blocks[i].getPosition();
+				blocks[i] = new Block(this, pos);
+			}
 		}
 	}
 	
@@ -112,8 +114,10 @@ public abstract class Tetromino extends JComponent implements Cloneable{
 			setPieces();
 			for(Block block : blocks){
 				for(Tetromino piece : screen.getUsedTetrominos()){
-					for(Block block2 : piece.getBlocks()){
-						if(block.intersects(block2)){
+					for(int j=0; j<4; j++){
+						
+						if(piece.getBlocks()[j]!= null &&
+								block.intersects(piece.getBlocks()[j])){
 							setLocation(getX(),getY()-1);
 							setPieces();
 							screen.lockPiece();
