@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -98,6 +99,10 @@ public class PauseMenu extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				window.getHoldPanel().setNull();
+				window.getScreen().getTetrominos().clear();
+				window.getScreen().getUsedTetrominos().clear();
+				window.getScreen().removeAll();
 				System.out.println("Reset Game");
 
 			}

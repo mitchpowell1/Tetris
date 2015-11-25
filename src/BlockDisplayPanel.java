@@ -50,4 +50,8 @@ public class BlockDisplayPanel extends JPanel {
 		this.displayPiece = piece;
 		displayPiece.setLocation(0,0);
 	}
+	
+	public void setNull(){
+		displayPiece = null;
+	}
 }

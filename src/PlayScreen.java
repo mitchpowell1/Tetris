@@ -81,6 +81,10 @@ public class PlayScreen extends JPanel{
 	public ArrayList<Tetromino> getUsedTetrominos(){
 		return this.usedTetrominos;
 	}
+	
+	public ArrayList<Tetromino> getTetrominos(){
+		return this.tetrominos;
+	}
 		
 	/**
 	 * Creates a random type of Tetromino.

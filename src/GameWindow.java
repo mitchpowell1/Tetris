@@ -173,6 +173,20 @@ public class GameWindow extends JFrame {
 
 	
 	/**
+	 * @return the screen
+	 */
+	public PlayScreen getScreen() {
+		return screen;
+	}
+
+	/**
+	 * @param screen the screen to set
+	 */
+	public void setScreen(PlayScreen screen) {
+		this.screen = screen;
+	}
+
+	/**
 	 * Returns the panel that displays the next block to be used
 	 * @return The Next Block Panel
 	 */
@@ -188,6 +202,7 @@ public class GameWindow extends JFrame {
 		return hold;
 	}
 	
+
 	/**
 	 * Stops the timer and shows the pause menu component
 	 */
